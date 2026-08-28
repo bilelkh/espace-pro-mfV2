@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+    <script type="text/javascript" name="eulerian" src="https://mm.eulerian.net/ea.js"></script>
+
+    <!-- Tracking Eulerian -->
+    <script type="text/javascript" src="./src/assets/libraries/eulerian/ea.js"></script>
+    <script type="text/javascript" src="./src/assets/libraries/eulerian/ea_push.js"></script>
+
+    <!-- Tracking Google Analytics GTM -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-PLB6DMD ');</script>
+      
+      <link rel="stylesheet" href="http://localhost:3000/css/main.css" media="screen" type="text/css"/>
+    </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PLB6DMD"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+
+    <script>
+      if (typeof window.espaceProConfig === 'undefined') {
+        window.espaceProConfig = {};
+      }
+      // window.espaceProConfig.BASE_RESOURCES_URL = '/images';
+      window.espaceProConfig.BASE_RESOURCES_URL = 'https://www.pro.sofinco.fr/files/live/sites/espacepro/files/accueil/contact/';
+      window.espaceProConfig.CITY_API_URL = 'https://rct-api-ref.sofinco.fr/nomenclatures/v1/cities';
+      window.espaceProConfig.SUBMIT_CONTACT_FORM_URL = 'https://www-ci.portail.sofinco.dev.cacd2.io/monAction.do';
+    </script>
+  </body>
+</html>

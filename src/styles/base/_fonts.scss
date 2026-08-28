@@ -1,0 +1,48 @@
+@import '../abstracts/variables';
+
+/* Poppins */
+@font-face {
+  font-family: 'Poppins Regular';
+  font-display: swap;
+  src: url($fonts-path-poppins + 'poppins-regular-webfont.woff2') format('woff2'),
+    url($fonts-path-poppins + 'poppins-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins Medium';
+  font-display: swap;
+  src: url($fonts-path-poppins + 'poppins-medium-webfont.woff2') format('woff2'),
+    url($fonts-path-poppins + 'poppins-medium-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins SemiBold';
+  font-display: swap;
+  src: url($fonts-path-poppins + 'poppins-semibold-webfont.woff2') format('woff2'),
+    url($fonts-path-poppins + 'poppins-semibold-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Sarabun */
+@font-face {
+  font-family: 'Sarabun Regular';
+  font-display: swap;
+  src: url($fonts-path-sarabun + 'sarabun-regular-webfont.woff2') format('woff2'),
+    url($fonts-path-sarabun + 'sarabun-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Sarabun Light';
+  font-display: swap;
+  src: url($fonts-path-sarabun + 'sarabun-light-webfont.woff2') format('woff2'),
+    url($fonts-path-sarabun + 'sarabun-light-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}

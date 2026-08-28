@@ -1,0 +1,163 @@
+@import '../abstracts/functions';
+@import '../abstracts/mixins';
+@import '../abstracts/variables';
+
+.input-error {
+  color: $color-red;
+  font-size: toRem(12);
+  font-family: $font-poppins-regular;
+  line-height: toRem(18);
+  display: flex;
+  align-items: flex-start;
+  margin-top: toRem(5);
+}
+
+.input-error::before {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  min-height: toRem(15);
+  min-width: toRem(15);
+  margin-right: toRem(5);
+  background-image: url('@/assets/images/icons/icon-error.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.input-error__message {
+  vertical-align: middle;
+  font-weight: inherit;
+}
+
+.c-input {
+  position: relative;
+
+  @include mq-to-tablet {
+    margin-top: toRem(16);
+  }
+}
+
+.c-input__wrapper {
+  position: relative;
+  border: toRem(1) solid $color-grey-medium-3;
+  border-radius: toRem(8);
+  display: flex;
+  flex-direction: column;
+}
+
+.c-input__wrapper--auto {
+  height: auto;
+}
+
+.c-input__wrapper--auto fieldset {
+  margin: 0;
+  min-height: toRem(54);
+  padding: toRem(8) toRem(16) toRem(4) toRem(16);
+}
+
+.c-input__field {
+  border: 0;
+  padding: 0;
+}
+
+.c-input__label {
+  font-family: $font-poppins-semi-bold;
+  line-height: toRem(18);
+  font-size: toRem(12);
+  color: $color-black;
+  position: absolute;
+  top: toRem(8);
+  left: toRem(16);
+
+  &::first-letter {
+    text-transform: uppercase;
+  }
+}
+
+legend.c-input__label {
+  position: inherit;
+  float: left;
+}
+
+.c-input__text {
+  font-family: $font-sarabun-light;
+  font-size: toRem(16);
+  color: $color-grey;
+}
+
+.c-input__text::placeholder {
+  font-family: $font-sarabun-light;
+  color: $color-grey;
+  opacity: 1;
+}
+
+.c-input__text::-webkit-input-placeholder {
+  font-family: $font-sarabun-light;
+  color: $color-grey;
+  opacity: 1;
+}
+
+.c-input__text:-ms-input-placeholder {
+  font-family: $font-sarabun-light;
+  color: $color-grey;
+  opacity: 1;
+}
+
+.c-input--invalid {
+  .c-input__label {
+    color: $color-red;
+  }
+
+  .c-input__button,
+  .c-input__wrapper {
+    border-color: $color-red;
+  }
+}
+
+.c-input--filled {
+  .c-input__label {
+    color: $color-green;
+  }
+
+  .c-input__wrapper,
+  .c-input__button {
+    border-color: $color-green;
+  }
+}
+
+.input-clear {
+  content: '';
+  position: absolute;
+  cursor: pointer;
+  right: toRem(10);
+  top: 50%;
+  transform: translatey(-50%);
+  display: inline-block;
+  height: toRem(16);
+  width: toRem(16);
+  background-repeat: no-repeat;
+  background: none;
+  background-size: cover;
+  margin: 0;
+  border: 0;
+}
+
+.input-clear:focus {
+  outline: toRem(2) solid $color-outline;
+}
+
+.input-clear-red {
+  background-image: url('@/assets/images/icons/icon-delete-red.svg');
+}
+
+.input-clear-green {
+  background-image: url('@/assets/images/icons/icon-delete-green.svg');
+}
+
+.contact-form__step {
+  @include mq-desktop {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0 toRem(-12);
+  }
+}

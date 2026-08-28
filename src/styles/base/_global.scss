@@ -1,0 +1,132 @@
+@import '../abstracts/functions';
+@import '../abstracts/mixins';
+@import '../abstracts/variables';
+
+body,
+html {
+  @include mq-mobile {
+    overflow-x: hidden;
+  }
+}
+
+body {
+  font-family: $font-sarabun-light;
+  font-size: toRem(16);
+  color: $color-grey-dark;
+  background-color: $color-white;
+  margin: 0;
+  padding: 0;
+  line-height: toRem(20);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: underline;
+  color: $color-grey-dark;
+
+  &:hover {
+    color: $color-green;
+  }
+}
+
+button {
+  cursor: pointer;
+  padding: 0;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+* {
+  box-sizing: border-box;
+
+  &:focus {
+    outline: toRem(2) solid $color-outline;
+    outline-offset: toRem(0);
+  }
+}
+
+//headings
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: $font-poppins-medium;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: toRem(-0.64);
+}
+
+h2,
+h3 {
+  line-height: toRem(40);
+}
+
+h1 {
+  font-size: toRem(40);
+  line-height: toRem(48);
+}
+
+h2 {
+  font-size: toRem(35);
+}
+
+h3 {
+  font-size: toRem(30);
+}
+
+h4 {
+  font-size: toRem(18);
+  line-height: toRem(22);
+}
+
+h5 {
+  font-size: toRem(16);
+}
+
+h6 {
+  font-family: $font-poppins-regular;
+  font-size: toRem(14);
+  line-height: toRem(17);
+}
+
+fieldset {
+  padding: 0;
+  border: 0;
+}
+
+// Pour accessibilité
+/* * {
+  line-height: 1.5 !important;
+  letter-spacing: 0.12em !important;
+  word-spacing: 0.16em !important;
+}
+
+p { margin-bottom: 2em !important; }*/

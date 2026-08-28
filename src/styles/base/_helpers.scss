@@ -1,0 +1,156 @@
+@import '../abstracts/functions';
+@import '../abstracts/mixins';
+@import '../abstracts/variables';
+
+.sr-only {
+  position: absolute;
+  width: toRem(1);
+  height: toRem(1);
+  padding: 0;
+  margin: toRem(-1);
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Container section
+//.container {
+//    margin: 0 auto;
+//    padding: 0;
+//
+//    @include mq-mobile {
+//        width: calc(100% - #{toRem(40)});
+//        max-width: toRem(767);
+//    }
+//    @include mq-tablet {
+//        width: calc(100% - #{toRem(40)});
+//        max-width: toRem(1023);
+//    }
+//    @include mq-desktop {
+//        width: 84.86111%;
+//        max-width: toRem(1512);
+//    }
+//}
+
+// titles
+.title-1,
+.title-1-big .title-2,
+.title-3,
+.title-4,
+.title-5 {
+  font-weight: normal;
+}
+
+.title-1,
+.title-1-big .title-2,
+.title-3,
+.title-4,
+.title-5 {
+  font-family: $font-poppins-medium;
+}
+
+.title-1,
+.title-2,
+.title-3 {
+  letter-spacing: toRem(-0.64);
+}
+
+.title-2,
+.title-3 {
+  line-height: toRem(40);
+}
+
+.title-1-big {
+  font-size: toRem(55);
+  line-height: toRem(58);
+}
+
+.title-1 {
+  font-size: toRem(40);
+  line-height: toRem(48);
+}
+
+.title-2 {
+  font-size: toRem(35);
+}
+
+.title-3 {
+  font-size: toRem(30);
+}
+
+.title-4 {
+  font-size: toRem(18);
+  line-height: toRem(22);
+}
+
+.title-5 {
+  font-size: toRem(16);
+}
+
+.title-6 {
+  font-family: $font-poppins-regular;
+  font-size: toRem(14);
+  line-height: toRem(17);
+}
+
+// texts
+.body-1 {
+  font-size: toRem(16);
+  line-height: toRem(20);
+}
+
+.body-2 {
+  font-size: toRem(14);
+  line-height: toRem(18);
+}
+
+.chips {
+  font-family: $font-poppins-regular;
+  font-size: toRem(12);
+  line-height: toRem(18);
+}
+
+.chips strong,
+.chips b {
+  font-family: $font-poppins-semi-bold;
+  font-weight: normal;
+}
+
+.d-block {
+  display: block;
+}
+
+.d-none {
+  display: none;
+}
+
+.mobile {
+  @include mq-mobile {
+    display: block;
+  }
+  @include mq-from-tablet {
+    display: none;
+  }
+}
+
+.from-tablet {
+  @include mq-mobile {
+    display: none;
+  }
+  @include mq-from-tablet {
+    display: block;
+  }
+}
+
+.desktop {
+  @include mq-mobile {
+    display: none;
+  }
+  @include mq-tablet {
+    display: none;
+  }
+  @include mq-desktop {
+    display: block;
+  }
+}

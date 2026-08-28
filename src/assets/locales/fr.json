@@ -1,0 +1,268 @@
+{
+  "form": {
+    "title": "Nous contacter",
+    "text": "Tous les champs sont obligatoires",
+    "picture": {
+      "src": "picture.svg",
+      "alt": ""
+    },
+    "stepper": ["Vous", "Votre entreprise"],
+    "step1": {
+      "fields": {
+        "lastname": {
+          "label": "nom",
+          "placeholder": "",
+          "validation": {
+            "required": "Veuillez renseigner votre nom",
+            "alpha": "Veuillez renseigner un nom valide. Les chiffres ne sont pas acceptés, 2 caractères minimum"
+          }
+        },
+        "firstname": {
+          "label": "prénom",
+          "placeholder": "",
+          "validation": {
+            "required": "Veuillez renseigner votre prénom",
+            "alpha": "Veuillez renseigner un prénom valide. Les chiffres ne sont pas acceptés, 2 caractères minimum"
+          }
+        },
+        "organisation": {
+          "label": "organisation",
+          "placeholder": "Veuillez choisir une option",
+          "options": [
+            {
+              "id": 1,
+              "label": "Commerce"
+            },
+            {
+              "id": 2,
+              "label": "Marketing"
+            },
+            {
+              "od": 3,
+              "label": "Relation Client"
+            },
+            {
+              "id": 4,
+              "label": "E-commerce"
+            },
+            {
+              "id": 5,
+              "label": "Finance"
+            },
+            {
+              "id": 6,
+              "label": "Autres"
+            }
+          ],
+          "validation": {
+            "required": "Veuillez sélectionner une organisation parmi les choix proposés"
+          }
+        },
+        "phone": {
+          "label": "téléphone",
+          "placeholder": "ex : 02 03 04 05 06",
+          "validation": {
+            "required": "Veuillez renseigner votre téléphone",
+            "numeric": "Veuillez renseigner un téléphone valide. Ex : 06 01 02 03 04"
+          }
+        },
+        "email": {
+          "label": "e-mail",
+          "placeholder": "ex : jsmith{'@'}gmail.com",
+          "validation": {
+            "required": "Veuillez renseigner votre adresse e-mail",
+            "email": "Veuillez respecter le format d'une adresse e-mail. Ex : exemple{'@'}domaine.fr"
+          }
+        },
+        "sector": {
+          "label": "Secteur d'activité",
+          "placeholder": "Veuillez choisir une option",
+          "options": [
+            {
+              "id": 1,
+              "label": "Auto, moto"
+            },
+            {
+              "id": 2,
+              "label": "Distribution"
+            },
+            {
+              "id": 3,
+              "label": "Energie et habitat"
+            },
+            {
+              "id": 4,
+              "label": "Loisirs"
+            }
+          ],
+          "validation": {
+            "required": "Veuillez sélectionner un secteur d'activité parmi les choix proposés"
+          }
+        }
+      },
+      "button": "Suivant"
+    },
+    "step2": {
+      "fields": {
+        "companyName": {
+          "label": "raison sociale",
+          "placeholder": "ex : John Smith",
+          "validation": {
+            "required": "Veuillez renseigner votre raison sociale",
+            "alpha": "Veuillez renseigner une raison sociale valide, 50 caractères maximum"
+          }
+        },
+        "siren": {
+          "label": "SIREN",
+          "placeholder": "ex : 442 293 775",
+          "validation": {
+            "required": "Veuillez renseigner votre SIREN",
+            "numeric": "Veuillez renseigner un SIREN valide, le SIREN correspond aux 9 premiers caractères du SIRET. Ex : 542 097 522"
+          }
+        },
+        "zipcode": {
+          "label": "Code postal (ex : 92190)",
+          "placeholder": "ex : 92190",
+          "validation": {
+            "required": "Veuillez renseigner un code postal",
+            "numeric": "Veuillez renseigner un champ code postal valide. Ex : 92190"
+          }
+        },
+        "distributionChannel": {
+          "label": "Canal de distribution",
+          "placeholder": "Veuillez choisir une option",
+          "options": [
+            {
+              "id": 1,
+              "label": "En ligne"
+            },
+            {
+              "id": 2,
+              "label": "En magasin"
+            },
+            {
+              "id": 3,
+              "label": "Les deux (en ligne et en magasin)"
+            }
+          ],
+          "validation": {
+            "required": "Veuillez sélectionner un canal de distribution parmi les choix proposés"
+          }
+        },
+        "salesRevenues": {
+          "label": "Chiffre d'affaires",
+          "placeholder": "Veuillez choisir une option",
+          "options": [
+            {
+              "id": 1,
+              "label": "Supérieur à 200 millions d'euros"
+            },
+            {
+              "id": 2,
+              "label": "Inférieur à 200 millions d'euros"
+            }
+          ],
+          "validation": {
+            "required": "Veuillez sélectionner un chiffre d'affaires parmi les choix proposés"
+          }
+        },
+        "customersType": {
+          "label": "Votre clientèle",
+          "validation": {
+            "required": "Veuillez sélectionner votre type de clientèle"
+          }
+        }
+      },
+      "gobacklink": "Retour",
+      "button": "Nous contacter"
+    }
+  },
+  "quizz": {
+    "picture": {
+      "src": "quizz.svg",
+      "alt": ""
+    },
+    "step1": {
+      "title": "Quel est votre secteur d'activité ?",
+      "options": [
+        {
+          "id": "1",
+          "label": "Auto, Moto"
+        },
+        {
+          "id": "2",
+          "label": "Distribution"
+        },
+        {
+          "id": "3",
+          "label": "Énergie et Habitat"
+        },
+        {
+          "id": "4",
+          "label": "Loisirs"
+        }
+      ]
+    },
+    "step2": {
+      "title": "Quels sont vos canaux de vente?",
+      "options": [
+        {
+          "id": "1",
+          "label": "En ligne"
+        },
+        {
+          "id": "2",
+          "label": "En magasin"
+        },
+        {
+          "id": "3",
+          "label": "Les deux"
+        }
+      ]
+    },
+    "step3": {
+      "title": "Quel est votre panier moyen ?",
+      "options": [
+        {
+          "id": "1",
+          "label": "Inférieur à 100 euros"
+        },
+        {
+          "id": "2",
+          "label": "Entre 100 et 300 euros"
+        },
+        {
+          "id": "3",
+          "label": "Entre 300 et 5000 euros"
+        },
+        {
+          "id": "4",
+          "label": "Plus de 5000 euros"
+        }
+      ]
+    },
+    "step4": {
+      "title": "Qui sont vos clients ?",
+      "options": [
+        {
+          "id": "1",
+          "label": "Des particuliers"
+        },
+        {
+          "id": "2",
+          "label": "Des professionnels"
+        },
+        {
+          "id": "3",
+          "label": "Les deux"
+        }
+      ]
+    },
+    "gobacklink": "Retour"
+  },
+  "confirmation": {
+    "title": "Merci, nos équipes ont hâte d'échanger avec vous.",
+    "text": "Préparez-vous à être recontacté dans les 48h par nos experts",
+    "button": "Retour à la page d’accueil"
+  }
+}
