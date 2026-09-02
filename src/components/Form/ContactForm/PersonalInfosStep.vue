@@ -105,7 +105,7 @@ import { required, email, helpers } from '@vuelidate/validators';
 import { usePersonalInfosFormStore } from '@/stores/personalInfosForm';
 
 import { changePageTitle } from '@/mixins/title';
-import { eaCollectorWrapper, dataLayerGAWrapper } from '@/mixins/taggingPlan';
+import { eaCollectorWrapper, dataLayerGAWrapper, getTaggingPath, getPreviousPage } from '@/mixins/taggingPlan';
 import { getHost } from '@/mixins/host';
 
 import Input from '@/components/Form/Inputs/Input.vue';
@@ -170,22 +170,22 @@ async function moveToNextStep() {
       contact_type: 'Page contact'
     });
 
-    // Eulerian
+    // Eulerian - 5.4. Page de contact entreprise
     eaCollectorWrapper([
       'rtgsite',
       'professionnel',
       'rtgpg',
       'form',
-      'rtgidform',
-      'contact',
-      'rtgpagename',
-      'contact_entreprise',
       'prdref',
       'formulaire_contact',
       'scart',
       '1',
+      'rtgidform',
+      'contact',
+      'rtgpagename',
+      'contact_entreprise',
       'path',
-      window.location.pathname,
+      getTaggingPath(),
       'from',
       getHost(),
       'rtgnom',
@@ -193,13 +193,15 @@ async function moveToNextStep() {
       'rtgprenom',
       personalInfosForm.firstname,
       'rtgorganisation',
-      `${personalInfosForm.company.organisation?.id}`,
+      personalInfosForm.company.organisation?.label,
       'rtgphonenumber',
       personalInfosForm.contact.phone,
       'email',
       personalInfosForm.contact.email,
       'rtgsecteuractivité',
-      `${personalInfosForm.company.sector}`
+      personalInfosForm.company.sector?.label,
+      'rtgpreviouspage',
+      getPreviousPage()
     ]);
 
     emit('changeActiveStep');

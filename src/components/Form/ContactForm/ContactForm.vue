@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import Stepper from '@/components/Form/Stepper/Stepper.vue';
 import PersonalInfosStep from '@/components/Form/ContactForm/PersonalInfosStep.vue';
 import CompanyInfosStep from '@/components/Form/ContactForm/CompanyInfosStep.vue';
@@ -35,9 +35,18 @@ import { usePersonalInfosFormStore } from '@/stores/personalInfosForm';
 import { useCompanylInfosFormStore } from '@/stores/companyInfosForm';
 import { storeToRefs } from 'pinia';
 import { changePageTitle } from '@/mixins/title';
-import { dataLayerGAWrapper, eaCollectorWrapper } from '@/mixins/taggingPlan';
+import {
+  dataLayerGAWrapper,
+  eaCollectorWrapper,
+  eaCollectorWrapperOnce,
+  generateFormRef,
+  getPreviousPage,
+  getTaggingPath,
+  setPreviousPage
+} from '@/mixins/taggingPlan';
 import { getHost } from '@/mixins/host';
 import { espaceProConfig } from '@/config/config';
+import { clientYesNoRadioInputs, customerTypeRadioInputs, getRadioLabel } from '@/config/form-options';
 
 const personalInfosFormStore = usePersonalInfosFormStore();
 const companyInfosForm = useCompanylInfosFormStore();
@@ -46,6 +55,10 @@ const { lastname, firstname, contact, company: personalCompany } = storeToRefs(p
 const { company } = storeToRefs(companyInfosForm);
 const activeStep = ref(1);
 const loading = ref(false);
+
+onMounted(() => {
+  manageEulerianOnDisplayContactForm();
+});
 
 const changeActiveStep = () => {
   activeStep.value++;
@@ -111,52 +124,73 @@ const manageGtmOnSubmitContactForm = (): void => {
   });
 };
 
+// 5.3. Page de contact personne : tag de page, une seule fois à l'affichage du formulaire.
+const manageEulerianOnDisplayContactForm = (): void => {
+  eaCollectorWrapperOnce('contact_perso', [
+    'rtgsite',
+    'professionnel',
+    'rtgpg',
+    'form',
+    'prdref',
+    'formulaire_contact',
+    'scart',
+    '1',
+    'rtgidform',
+    'contact',
+    'rtgpagename',
+    'contact_perso',
+    'path',
+    getTaggingPath(),
+    'from',
+    getHost(),
+    'rtgpreviouspage',
+    getPreviousPage()
+  ]);
+
+  setPreviousPage('contact_perso');
+};
+
+// 5.5. Envoi du formulaire (clic sur "Nous contacter").
 const manageEulerianOnSubmitContactForm = (): void => {
   eaCollectorWrapper([
     'rtgsite',
     'professionnel',
     'rtgpg',
     'form',
-    'rtgidform',
-    'contact',
     'type',
-    'formulaire_contact',
+    personalInfosFormStore.company.sector?.label,
+    'ref',
+    generateFormRef(),
     'estimate',
     '1',
-    'ref',
-    '_' + Math.random().toString(36).substr(2, 9),
+    'rtgidform',
+    'contact',
     'rtgpagename',
-    'envoi_formulaire_contact',
+    'contact_entreprise',
     'path',
-    window.location.pathname,
+    getTaggingPath(),
     'from',
     getHost(),
-    'rtgnom',
-    personalInfosFormStore.lastname,
-    'rtgprenom',
-    personalInfosFormStore.firstname,
     'rtgorganisation',
-    `${personalInfosFormStore.company.organisation?.id}`,
+    personalInfosFormStore.company.organisation?.label,
     'rtgphonenumber',
     personalInfosFormStore.contact.phone,
     'email',
     personalInfosFormStore.contact.email,
     'rtgsecteuractivité',
-    `${personalInfosFormStore.company.sector?.id}`,
-    'rtgraisonsociale',
-    companyInfosForm.company.name,
-    'rtgsiren',
-    companyInfosForm.company.siren,
+    personalInfosFormStore.company.sector?.label,
     'rtgcodepostal',
     companyInfosForm.company.zipcode?.code,
     'rtgcanaldistribution',
-    `${companyInfosForm.company.distributionChannel?.id}`,
+    companyInfosForm.company.distributionChannel?.label,
     'rtgchiffredaffaires',
-    `${companyInfosForm.company.salesRevenues?.id}`,
+    companyInfosForm.company.salesRevenues?.label,
     'rtgclientele',
-    companyInfosForm.company.customersType,
+    getRadioLabel(customerTypeRadioInputs, companyInfosForm.company.customersType),
     'rtgclientbanquecagroupe',
-    companyInfosForm.company.caCustomerAlready
+    `${companyInfosForm.company.caCustomerAlready === clientYesNoRadioInputs[0].id}`,
+    'rtgpreviouspage',
+    getPreviousPage()
   ]);
 };
 </script>

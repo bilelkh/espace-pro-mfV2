@@ -1,2 +1,16 @@
-//components
+// vendors
+@import 'vendors/normalize';
+
+// abstracts (no CSS output — functions, variables, mixins)
+@import 'abstracts/functions';
+@import 'abstracts/variables';
+@import 'abstracts/mixins';
+
+// base
+@import 'base/fonts';
+@import 'base/global';
+@import 'base/helpers';
+
+// components
+@import 'components/buttons';
 @import 'components/forms';

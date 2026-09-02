@@ -120,19 +120,8 @@ import type { SelectOption } from '@/models/form';
 import { useInputs } from '@/composables/inputs.composable';
 import { computed } from 'vue';
 import RadioGroup from '@/components/Form/Inputs/RadioGroup.vue';
-import type { RadioInputParam } from '@/models/input';
+import { clientYesNoRadioInputs, customerTypeRadioInputs } from '@/config/form-options';
 import { hasSalesRevenues } from '@/services/business-rules';
-
-const customerTypeRadioInputs: RadioInputParam[] = [
-  { id: 'customerIndividual', label: 'Particulier' },
-  { id: 'customerPro', label: 'Pro' },
-  { id: 'customerIndividualPro', label: 'Les deux' }
-];
-
-const clientYesNoRadioInputs: RadioInputParam[] = [
-  { id: 'clientYes', label: 'Oui' },
-  { id: 'clientNo', label: 'Non' }
-];
 
 const { t, tm } = useI18n();
 const { saveInputRef, focusOnErrors } = useInputs();
