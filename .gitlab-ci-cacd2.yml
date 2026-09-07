@@ -1,0 +1,28 @@
+include:
+  - project: "cacd2/sofinco/commons/gitlab-ci-templates"
+    file: "deploy-npm-node.yml"
+    ref: main
+
+default:
+  tags:
+    - sofinco-private-runner
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^release-/
+      variables:
+        PUSH_PACKAGE: "true"
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+    - when: always
+
+variables:
+  NODE_IMAGE: ${DOCKER_HUB_PROXY}/library/node:22-alpine
+  COMPONENT_NAME: sofinco-espace-pro
+
+trigger_component-js-sofinco:
+  stage: deploy_npm
+  needs: ["deploy_npm"]
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+  trigger:
+    project: "cacd2/sofinco/espacepro/espacepro-common"

@@ -1,13 +1,13 @@
-@import '../abstracts/functions';
-@import '../abstracts/mixins';
-@import '../abstracts/variables';
+@use '../abstracts/functions' as fn;
+@use '../abstracts/mixins' as mix;
+@use '../abstracts/variables' as var;
 
 .sr-only {
   position: absolute;
-  width: toRem(1);
-  height: toRem(1);
+  width: fn.toRem(1);
+  height: fn.toRem(1);
   padding: 0;
-  margin: toRem(-1);
+  margin: fn.toRem(-1);
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
@@ -47,73 +47,73 @@
 .title-3,
 .title-4,
 .title-5 {
-  font-family: $font-poppins-medium;
+  font-family: var.$font-poppins-medium;
 }
 
 .title-1,
 .title-2,
 .title-3 {
-  letter-spacing: toRem(-0.64);
+  letter-spacing: fn.toRem(-0.64);
 }
 
 .title-2,
 .title-3 {
-  line-height: toRem(40);
+  line-height: fn.toRem(40);
 }
 
 .title-1-big {
-  font-size: toRem(55);
-  line-height: toRem(58);
+  font-size: fn.toRem(55);
+  line-height: fn.toRem(58);
 }
 
 .title-1 {
-  font-size: toRem(40);
-  line-height: toRem(48);
+  font-size: fn.toRem(40);
+  line-height: fn.toRem(48);
 }
 
 .title-2 {
-  font-size: toRem(35);
+  font-size: fn.toRem(35);
 }
 
 .title-3 {
-  font-size: toRem(30);
+  font-size: fn.toRem(30);
 }
 
 .title-4 {
-  font-size: toRem(18);
-  line-height: toRem(22);
+  font-size: fn.toRem(18);
+  line-height: fn.toRem(22);
 }
 
 .title-5 {
-  font-size: toRem(16);
+  font-size: fn.toRem(16);
 }
 
 .title-6 {
-  font-family: $font-poppins-regular;
-  font-size: toRem(14);
-  line-height: toRem(17);
+  font-family: var.$font-poppins-regular;
+  font-size: fn.toRem(14);
+  line-height: fn.toRem(17);
 }
 
 // texts
 .body-1 {
-  font-size: toRem(16);
-  line-height: toRem(20);
+  font-size: fn.toRem(16);
+  line-height: fn.toRem(20);
 }
 
 .body-2 {
-  font-size: toRem(14);
-  line-height: toRem(18);
+  font-size: fn.toRem(14);
+  line-height: fn.toRem(18);
 }
 
 .chips {
-  font-family: $font-poppins-regular;
-  font-size: toRem(12);
-  line-height: toRem(18);
+  font-family: var.$font-poppins-regular;
+  font-size: fn.toRem(12);
+  line-height: fn.toRem(18);
 }
 
 .chips strong,
 .chips b {
-  font-family: $font-poppins-semi-bold;
+  font-family: var.$font-poppins-semi-bold;
   font-weight: normal;
 }
 
@@ -126,31 +126,35 @@
 }
 
 .mobile {
-  @include mq-mobile {
+  @include mix.mq-mobile {
     display: block;
   }
-  @include mq-from-tablet {
+
+  @include mix.mq-from-tablet {
     display: none;
   }
 }
 
 .from-tablet {
-  @include mq-mobile {
+  @include mix.mq-mobile {
     display: none;
   }
-  @include mq-from-tablet {
+
+  @include mix.mq-from-tablet {
     display: block;
   }
 }
 
 .desktop {
-  @include mq-mobile {
+  @include mix.mq-mobile {
     display: none;
   }
-  @include mq-tablet {
+
+  @include mix.mq-tablet {
     display: none;
   }
-  @include mq-desktop {
+
+  @include mix.mq-desktop {
     display: block;
   }
 }

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import type { SelectOption } from '@/models/form';
 
 export interface PersonalInfosFormState {
+  salutation: SelectOption | null,
   firstname: string;
   lastname: string;
   contact: {
@@ -10,12 +11,15 @@ export interface PersonalInfosFormState {
   };
   company: {
     organisation: SelectOption | null;
+    otherOrganisation: string | null;
     sector: SelectOption | null;
+    otherSector: string | null;
   };
 }
 
 export const usePersonalInfosFormStore = defineStore('personalInfosForm', {
   state: (): PersonalInfosFormState => ({
+    salutation: null,
     firstname: '',
     lastname: '',
     contact: {
@@ -24,7 +28,9 @@ export const usePersonalInfosFormStore = defineStore('personalInfosForm', {
     },
     company: {
       organisation: null,
-      sector: null
+      otherOrganisation: null,
+      sector: null,
+      otherSector: null,
     }
   }),
   getters: {},

@@ -6,9 +6,47 @@
       "src": "picture.svg",
       "alt": ""
     },
-    "stepper": ["Vous", "Votre entreprise"],
+    "stepper": [
+      "Vous",
+      "Votre entreprise"
+    ],
     "step1": {
       "fields": {
+        "salutation": {
+          "label": "civilité",
+          "placeholder": "Veuillez choisir une option",
+          "options": [
+            {
+              "id": 1,
+              "title": "Monsieur",
+              "label": "Mr."
+            },
+            {
+              "id": 2,
+              "title": "Madame",
+              "label": "Ms."
+            },
+            {
+              "id": 3,
+              "title": "Docteur",
+              "label": "Dr."
+            },
+            {
+              "id": 4,
+              "title": "Professeur",
+              "label": "Prof."
+            },
+            {
+              "id": 5,
+              "title": "Autre",
+              "label": "Mx."
+            }
+          ],
+          "validation": {
+            "required": "Veuillez renseigner votre civilité",
+            "alpha": "Veuillez renseigner une civilité"
+          }
+        },
         "lastname": {
           "label": "nom",
           "placeholder": "",
@@ -25,33 +63,53 @@
             "alpha": "Veuillez renseigner un prénom valide. Les chiffres ne sont pas acceptés, 2 caractères minimum"
           }
         },
+        "otherOrganisation": {
+          "label": "organisation",
+          "placeholder": "Autre",
+          "validation": {
+            "required": "Veuillez renseigner votre organisation",
+            "alpha": "Veuillez renseigner une organisation valide."
+          }
+        },
         "organisation": {
           "label": "organisation",
           "placeholder": "Veuillez choisir une option",
           "options": [
             {
               "id": 1,
-              "label": "Commerce"
+              "label": "Achats"
             },
             {
               "id": 2,
-              "label": "Marketing"
+              "label": "Commercial"
             },
             {
               "od": 3,
-              "label": "Relation Client"
+              "label": "Direction Générale"
             },
             {
               "id": 4,
-              "label": "E-commerce"
-            },
-            {
-              "id": 5,
               "label": "Finance"
             },
             {
+              "id": 5,
+              "label": "Informatique"
+            },
+            {
               "id": 6,
-              "label": "Autres"
+              "label": "Marketing / Communication"
+            },
+            {
+              "id": 7,
+              "label": "Paiement"
+            },
+            {
+              "id": 8,
+              "label": "Relations clients"
+            },
+            {
+              "id": 9,
+              "label": "Autre"
             }
           ],
           "validation": {
@@ -74,25 +132,53 @@
             "email": "Veuillez respecter le format d'une adresse e-mail. Ex : exemple{'@'}domaine.fr"
           }
         },
+        "otherSector": {
+          "label": "secteur d'activité",
+          "placeholder": "Autre",
+          "validation": {
+            "required": "Veuillez renseigner votre secteur d'activité",
+            "alpha": "Veuillez renseigner un secteur d'activité valide."
+          }
+        },
         "sector": {
           "label": "Secteur d'activité",
           "placeholder": "Veuillez choisir une option",
           "options": [
             {
               "id": 1,
-              "label": "Auto, moto"
+              "label": "Alimentaire"
             },
             {
               "id": 2,
-              "label": "Distribution"
+              "label": "Beauté & santé"
             },
             {
               "id": 3,
-              "label": "Energie et habitat"
+              "label": "Culture, voyages, sports & loisirs"
             },
             {
               "id": 4,
-              "label": "Loisirs"
+              "label": "Électronique & électroménager"
+            },
+            {
+              "id": 5,
+              "label": "Equipement de la Maison & décoration"
+            },
+            {
+              "id": 6,
+              "label": "Mode & habillement"
+            },
+            {
+              "id": 7,
+              "label": "Rénovation énergétique / Habitat"
+            },
+            {
+              "id": 8,
+              "label": "Réparation / Accessoires auto/moto/scooter"
+            },
+            {
+              "id": 9,
+              "label": "Autre"
             }
           ],
           "validation": {
@@ -120,6 +206,14 @@
             "numeric": "Veuillez renseigner un SIREN valide, le SIREN correspond aux 9 premiers caractères du SIRET. Ex : 542 097 522"
           }
         },
+        "siret": {
+          "label": "SIRET",
+          "placeholder": "ex : 442 293 775 45678",
+          "validation": {
+            "required": "Veuillez renseigner votre SIRET",
+            "numeric": "Veuillez renseigner un SIRET valide, le SIRET contient 14 caractères. Ex : 542 097 522 45678"
+          }
+        },
         "zipcode": {
           "label": "Code postal (ex : 92190)",
           "placeholder": "ex : 92190",
@@ -128,21 +222,58 @@
             "numeric": "Veuillez renseigner un champ code postal valide. Ex : 92190"
           }
         },
+        "zip": {
+          "label": "Département (ex: Paris)",
+          "placeholder": "ex : Paris",
+          "validation": {
+            "required": "Veuillez renseigner un département"
+          }
+        },
+        "creditVolume": {
+          "label": "Combien de dossiers de crédit générez-vous ?",
+          "placeholder": "Veuillez choisir une option",
+          "options": [
+            {
+              "id": 1,
+              "label": "moins de 100 dossiers par an"
+            },
+            {
+              "id": 2,
+              "label": "Entre 100 et 1000 dossiers par an"
+            },
+            {
+              "id": 3,
+              "label": "Entre 1000 et 10000 dossiers par an"
+            },
+            {
+              "id": 4,
+              "label": "plus de 10000 dossiers par an"
+            }
+          ]
+        },
         "distributionChannel": {
           "label": "Canal de distribution",
           "placeholder": "Veuillez choisir une option",
           "options": [
             {
               "id": 1,
-              "label": "En ligne"
+              "label": "Vente en ligne"
             },
             {
               "id": 2,
-              "label": "En magasin"
+              "label": "Vente en magasin"
             },
             {
               "id": 3,
-              "label": "Les deux (en ligne et en magasin)"
+              "label": "Vente en ligne et en magasin"
+            },
+            {
+              "id": 4,
+              "label": "Vente à domicile"
+            },
+            {
+              "id": 5,
+              "label": "Call center"
             }
           ],
           "validation": {
@@ -155,11 +286,39 @@
           "options": [
             {
               "id": 1,
-              "label": "Supérieur à 200 millions d'euros"
+              "label": "Inférieur à 10 mille euros"
             },
             {
               "id": 2,
-              "label": "Inférieur à 200 millions d'euros"
+              "label": "Entre 10 mille et 50 mille euros"
+            },
+            {
+              "id": 3,
+              "label": "Entre 50 mille et 500 mille euros"
+            },
+            {
+              "id": 4,
+              "label": "Entre 500 mille et 1 million d’euros"
+            },
+            {
+              "id": 5,
+              "label": "Entre 1 million et 5 millions d’euros"
+            },
+            {
+              "id": 6,
+              "label": "Entre 5 millions et 10 millions d’euros"
+            },
+            {
+              "id": 7,
+              "label": "Entre 10 millions et 50 millions d’euros"
+            },
+            {
+              "id": 8,
+              "label": "Entre 50 millions et 100 millions d’euros"
+            },
+            {
+              "id": 9,
+              "label": "Supérieur à 100 millions d’euros"
             }
           ],
           "validation": {
@@ -191,15 +350,15 @@
         },
         {
           "id": "2",
-          "label": "Distribution"
+          "label": "Distribution, magasin, e-commerce"
         },
         {
           "id": "3",
-          "label": "Énergie et Habitat"
+          "label": "Rénovation énergétique"
         },
         {
           "id": "4",
-          "label": "Loisirs"
+          "label": "Véhicules de Loisirs"
         }
       ]
     },

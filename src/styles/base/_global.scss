@@ -1,22 +1,22 @@
-@import '../abstracts/functions';
-@import '../abstracts/mixins';
-@import '../abstracts/variables';
+@use '../abstracts/functions' as fn;
+@use '../abstracts/mixins' as mix;
+@use '../abstracts/variables' as var;
 
 body,
 html {
-  @include mq-mobile {
+  @include mix.mq-mobile {
     overflow-x: hidden;
   }
 }
 
 body {
-  font-family: $font-sarabun-light;
-  font-size: toRem(16);
-  color: $color-grey-dark;
-  background-color: $color-white;
+  font-family: var.$font-sarabun-light;
+  font-size: fn.toRem(16);
+  color: var.$color-grey-dark;
+  background-color: var.$color-white;
   margin: 0;
   padding: 0;
-  line-height: toRem(20);
+  line-height: fn.toRem(20);
 }
 
 h1,
@@ -34,16 +34,27 @@ li {
 
 a {
   text-decoration: underline;
-  color: $color-grey-dark;
+  color: var.$color-grey-dark;
 
   &:hover {
-    color: $color-green;
+    color: var.$color-green;
   }
 }
 
 button {
   cursor: pointer;
   padding: 0;
+
+  // Désactive l'outline par défaut du navigateur sur les clics
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+  
+  // Conserve l'outline pour la navigation clavier
+  &:focus-visible {
+    outline: fn.toRem(2) solid var.$color-outline;
+    outline-offset: fn.toRem(0);
+  }
 }
 
 ul,
@@ -55,9 +66,26 @@ li {
   box-sizing: border-box;
 
   &:focus {
-    outline: toRem(2) solid $color-outline;
-    outline-offset: toRem(0);
+    outline: fn.toRem(2) solid var.$color-outline;
+    outline-offset: fn.toRem(0);
   }
+}
+
+// Désactive l'outline lors des interactions souris et tactiles
+[data-whatintent='mouse'] *:focus,
+[data-whatintent='touch'] *:focus {
+  outline: none !important;
+}
+
+// Méthode alternative : désactivation via :focus-visible pour les navigateurs modernes
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+// Assure que l'outline reste visible pour la navigation clavier
+*:focus-visible {
+  outline: fn.toRem(2) solid var.$color-outline;
+  outline-offset: fn.toRem(0);
 }
 
 //headings
@@ -75,46 +103,46 @@ h2,
 h3,
 h4,
 h5 {
-  font-family: $font-poppins-medium;
+  font-family: var.$font-poppins-medium;
 }
 
 h1,
 h2,
 h3 {
-  letter-spacing: toRem(-0.64);
+  letter-spacing: fn.toRem(-0.64);
 }
 
 h2,
 h3 {
-  line-height: toRem(40);
+  line-height: fn.toRem(40);
 }
 
 h1 {
-  font-size: toRem(40);
-  line-height: toRem(48);
+  font-size: fn.toRem(40);
+  line-height: fn.toRem(48);
 }
 
 h2 {
-  font-size: toRem(35);
+  font-size: fn.toRem(35);
 }
 
 h3 {
-  font-size: toRem(30);
+  font-size: fn.toRem(30);
 }
 
 h4 {
-  font-size: toRem(18);
-  line-height: toRem(22);
+  font-size: fn.toRem(18);
+  line-height: fn.toRem(22);
 }
 
 h5 {
-  font-size: toRem(16);
+  font-size: fn.toRem(16);
 }
 
 h6 {
-  font-family: $font-poppins-regular;
-  font-size: toRem(14);
-  line-height: toRem(17);
+  font-family: var.$font-poppins-regular;
+  font-size: fn.toRem(14);
+  line-height: fn.toRem(17);
 }
 
 fieldset {

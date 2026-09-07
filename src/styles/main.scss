@@ -1,16 +1,11 @@
 // vendors
-@import 'vendors/normalize';
+@use 'vendors/normalize';
 
-// abstracts (no CSS output — functions, variables, mixins)
-@import 'abstracts/functions';
-@import 'abstracts/variables';
-@import 'abstracts/mixins';
-
-// base
-@import 'base/fonts';
-@import 'base/global';
-@import 'base/helpers';
+// base 
+@use 'base/fonts';
+@use 'base/global';
+@use 'base/helpers';
 
 // components
-@import 'components/buttons';
-@import 'components/forms';
+@use 'components/buttons';
+@use 'components/forms';

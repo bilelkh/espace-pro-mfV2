@@ -12,4 +12,5 @@ interface WEspaceProConfig {
   BASE_RESOURCES_URL: string;
   CITY_API_URL: string;
   SUBMIT_CONTACT_FORM_URL: string;
+  SALES_FORCE_FORM_CONFIG: string;
 }

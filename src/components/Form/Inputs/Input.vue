@@ -2,16 +2,16 @@
   <div class="c-input__block">
     <div :class="['c-input', { 'c-input--invalid': ariaInvalid, 'c-input--filled': isFilled }]">
       <div class="c-input__wrapper">
-        <label class="c-input__label" :for="id + '-text'">
+        <label class="c-input__label" :for="id">
           {{ label }}
           <span v-if="placeholder !== ''"> ({{ placeholder }})</span>
         </label>
         <input
-          :id="id + '-text'"
+          :id="id"
           ref="input"
           v-model="inputValue"
           class="c-input__field c-input__text"
-          :name="id"
+          :name="name ?? id"
           :autocomplete="autocomplete"
           :type="type"
           :minlength="minlength"
@@ -52,6 +52,7 @@ const props = withDefaults(
     maxlength?: string;
     ariaInvalid?: boolean;
     id: string;
+    name?: string;
     required?: boolean;
     autocomplete?: string;
     placeholder: string;
@@ -80,7 +81,7 @@ const emit = defineEmits<{
 }>();
 
 const hasErrors = computed<boolean>(() => props.errors && props.errors.length > 0);
-const isFilled = computed<boolean>(() => !isFocused.value && (!props.required || (props.required && !props.isInvalid)));
+const isFilled = computed<boolean>(() => !isFocused.value && !!inputValue.value && (!props.required || (props.required && !props.isInvalid)));
 
 function handleInput(e: Event) {
   const target = e.target as HTMLInputElement;
@@ -112,12 +113,12 @@ defineExpose({
 </script>
 
 <style scoped lang="scss">
-@import 'src/styles/abstracts/variables';
-@import 'src/styles/abstracts/functions';
+@use 'src/styles/abstracts/variables' as var;
+@use 'src/styles/abstracts/functions' as func;
 
 .c-input__field {
-  height: toRem(56);
-  padding: toRem(28) toRem(16) toRem(8) toRem(16);
-  border-radius: toRem(8);
+  height: func.toRem(56);
+  padding: func.toRem(28) func.toRem(16) func.toRem(8) func.toRem(16);
+  border-radius: func.toRem(8);
 }
 </style>

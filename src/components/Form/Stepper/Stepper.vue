@@ -60,9 +60,9 @@ watch(
 </script>
 
 <style scoped lang="scss">
-@import 'src/styles/abstracts/variables';
-@import 'src/styles/abstracts/mixins';
-@import 'src/styles/abstracts/functions';
+@use 'src/styles/abstracts/variables' as var;
+@use 'src/styles/abstracts/mixins' as mix;
+@use 'src/styles/abstracts/functions' as fn;
 
 .stepper__block {
   order: 1;
@@ -72,75 +72,81 @@ watch(
   display: flex;
   padding: 0;
   list-style: none;
-  margin-bottom: toRem(34);
+  margin-bottom: fn.toRem(34);
 }
 
 .stepper__item {
   display: flex;
   align-items: center;
-  margin-right: toRem(13);
-  font-family: $font-poppins-regular;
+  margin-right: fn.toRem(13);
+  font-family: var.$font-poppins-regular;
 }
 
 .stepper__item-circle {
   display: flex;
-  margin-right: toRem(11);
+  margin-right: fn.toRem(11);
   align-items: center;
   justify-content: center;
 }
 
 .stepper__item-ecllipse {
-  background-color: $color-grey-light-2;
-  width: toRem(33);
-  height: toRem(33);
+  background-color: var.$color-grey-light-2;
+  width: fn.toRem(33);
+  height: fn.toRem(33);
   border-radius: 100%;
   transition: background-color 0.3s ease-in-out;
 }
 
 .stepper__item-order {
   position: absolute;
-  color: $color-grey-dark;
-  font-size: toRem(14);
-  line-height: toRem(17);
+  color: var.$color-grey-dark;
+  font-size: fn.toRem(14);
+  line-height: fn.toRem(17);
 }
 
 .stepper__item-txt {
-  margin-right: toRem(8);
-  font-size: toRem(12);
-  line-height: toRem(18);
+  margin-right: fn.toRem(8);
+  font-size: fn.toRem(12);
+  line-height: fn.toRem(18);
 }
 
 .stepper__item-separator {
-  background-color: $color-green;
-  height: toRem(1);
+  background-color: var.$color-primary-base;
+  height: fn.toRem(1);
 
-  @include mq-mobile-less {
-    min-width: toRem(15);
+  @include mix.mq-mobile-less {
+    min-width: fn.toRem(15);
   }
 
-  @include mq-from-mobile-less {
-    min-width: toRem(79);
+  @include mix.mq-from-mobile-less {
+    min-width: fn.toRem(79);
   }
 }
 
 .stepper__item--active .stepper__item-circle {
-  background-color: $color-green-light;
   border-radius: 100%;
-  width: toRem(33);
-  height: toRem(33);
+  width: fn.toRem(33);
+  height: fn.toRem(33);
 }
 
 .stepper__item--active .stepper__item-ecllipse {
-  background-color: $color-green;
-  width: toRem(28);
-  height: toRem(28);
+  background-color: var.$color-primary-base;
+  width: fn.toRem(28);
+  height: fn.toRem(28);
 }
 
 .stepper__item--active .stepper__item-order {
-  color: $color-white;
+  color: #ffff;
 }
 
 .stepper__item--active .stepper__item-txt {
-  color: $color-green;
+  color: var.$color-primary-base;
+}
+
+.stepper__item[aria-current="step"] {
+  .stepper__item-order,
+  .stepper__item-txt {
+  	text-decoration: underline;
+  }
 }
 </style>

@@ -1,18 +1,20 @@
-@import './functions';
+@use './functions' as func;
 
 //breakpoints
-$max-width-mobile-less: toRem(480); // 480px
-$min-width-mobile-less: toRem(480.0208); // 481px
-$max-width-mobile: toRem(767.9792); // 767px
-$min-width-tablet: toRem(768); // 768px
-$max-width-tablet: toRem(1023.9792); // 1023px
-$min-width-desktop-s: toRem(1024); // 1024px
-$max-width-menu-desktop: toRem(1267.9792); // 1267px
-$min-width-menu-desktop: toRem(1268); // 1268px
-$max-width-desktop-s: toRem(1512); // 1512px
-$min-width-desktop-l: toRem(1512.0208); // 1513px
+$max-width-mobile-less: func.toRem(480); // 480px
+$min-width-mobile-less: func.toRem(480.0208); // 481px
+$max-width-mobile: func.toRem(767.9792); // 767px
+$min-width-tablet: func.toRem(768); // 768px
+$max-width-tablet: func.toRem(1023.9792); // 1023px
+$min-width-desktop-s: func.toRem(1024); // 1024px
+$max-width-menu-desktop: func.toRem(1267.9792); // 1267px
+$min-width-menu-desktop: func.toRem(1268); // 1268px
+$max-width-desktop-s: func.toRem(1512); // 1512px
+$min-width-desktop-l: func.toRem(1512.0208); // 1513px
 
 //colors
+$color-primary-base: #00334d;
+$color-accent: #0AEADC;
 $color-black: #000000;
 $color-black-2: #34303e;
 $color-white: #ffffff;
@@ -32,8 +34,9 @@ $color-grey-medium: #e9e9e9;
 $color-grey-medium-2: #686868;
 $color-grey-medium-3: #cccccc;
 $color-grey-medium-4: #e8e8ea;
-$color-grey-dark: #444444;
+$color-grey-dark: #00334d;
 $color-outline: #007b91;
+$color-outline-blue: #000aff;
 $color-grey-transparent: rgb(204, 204, 204, 0.4);
 $color-black-transparent: rgb(0, 0, 0, 0.3);
 $bg-color-blue-light: #e8f7f8;

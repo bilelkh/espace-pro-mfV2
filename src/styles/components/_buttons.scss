@@ -1,12 +1,12 @@
-@import '../abstracts/functions';
-@import '../abstracts/variables';
+@use '../abstracts/functions' as fn;
+@use '../abstracts/variables' as var;
 
 .btn {
-  border-radius: toRem(8);
-  font-size: toRem(14);
-  line-height: toRem(17);
-  padding: toRem(13) toRem(40);
-  font-family: $font-poppins-semi-bold;
+  border-radius: var(--Full, 80px);
+  font-size: fn.toRem(14);
+  line-height: fn.toRem(17);
+  padding: fn.toRem(13) fn.toRem(40);
+  font-family: var.$font-poppins-semi-bold;
   display: inline-block;
   text-decoration: none;
   text-align: center;
@@ -14,21 +14,21 @@
 }
 
 .btn:focus {
-  outline: toRem(2) solid $color-outline;
-  outline-offset: toRem(2);
+  outline: fn.toRem(2) solid var.$color-outline;
+  outline-offset: fn.toRem(2);
 }
 
 // Button primary
 .btn-primary {
   text-transform: uppercase;
-  background-color: $color-pink;
-  color: $color-white;
-  border: toRem(1) solid $color-pink;
+  background-color: var.$color-primary-base;
+  color: var.$color-white;
+  border: fn.toRem(1) solid var.$color-primary-base;
 }
 
 .btn-primary__text {
   display: inline-block;
-  padding-right: toRem(25);
+  padding-right: fn.toRem(25);
   position: relative;
 }
 
@@ -38,83 +38,96 @@
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  background: url($path-icons + 'icon-arrow-right-white.svg') 0 0 no-repeat;
+  background: url(var.$path-icons + 'icon-arrow-right-white.svg') 0 0 no-repeat;
   background-size: cover;
-  height: toRem(16);
-  width: toRem(16);
+  height: fn.toRem(16);
+  width: fn.toRem(16);
+}
+
+.btn-primary:focus {
+  background-color: var.$color-primary-base;
+  color: var.$color-white;
+  border-color: var.$color-primary-base;
+  outline: fn.toRem(2) solid var.$color-blue;
+  outline-offset: fn.toRem(3);
 }
 
 .btn-primary:hover,
-.btn-primary:focus,
 .btn-primary:active {
-  background-color: $color-white;
-  color: $color-pink;
-}
-
-.btn-primary:hover .btn-primary__text::after,
-.btn-primary:focus .btn-primary__text::after,
-.btn-primary:active .btn-primary__text::after {
-  background: url($path-icons + 'icon-arrow-right-pink.svg') 0 0 no-repeat;
-  background-size: cover;
+  background-color: #001f30;
+  color: var.$color-white;
+  border-color: #001f30;
+  outline: none;
 }
 
 .btn-primary:disabled {
-  background-color: $color-grey-light;
-  color: $color-grey-medium-2;
-  border-color: $color-grey-medium-2;
+  background-color: var.$color-grey-light;
+  color: var.$color-grey-medium-2;
+  border-color: var.$color-grey-medium-2;
 }
 
 .btn-primary:disabled .btn-primary__text::after {
-  background: url($path-icons + 'icon-arrow-right-grey.svg') 0 0 no-repeat;
+  background: url(var.$path-icons + 'icon-arrow-right-grey.svg') 0 0 no-repeat;
   background-size: cover;
 }
 
 // Button secondary
 .btn-secondary {
-  background-color: $color-white;
-  border: toRem(1) solid $color-pink;
-  color: $color-pink;
+  background-color: var.$color-white;
+  border: fn.toRem(1) solid var.$color-primary-base;
+  color: var.$color-primary-base;
 }
 
-.btn-secondary:hover,
-.btn-secondary:focus,
+.btn-secondary:focus {
+  outline: fn.toRem(2) solid var.$color-blue;
+  outline-offset: fn.toRem(3);
+}
+
+.btn-secondary:hover {
+  background-color: var.$color-grey-light;
+  color: var.$color-primary-base;
+  border-width: fn.toRem(2);
+  outline: none;
+}
+
 .btn-secondary:active {
-  background-color: $color-pink;
-  color: $color-white;
+  background-color: var.$color-grey-light;
+  color: var.$color-primary-base;
+  outline: none;
 }
 
 .btn-secondary:disabled {
-  background-color: $color-grey-light;
-  color: $color-grey-medium-2;
-  border-color: $color-grey-medium-2;
+  background-color: var.$color-grey-light;
+  color: var.$color-grey-medium-2;
+  border-color: var.$color-grey-medium-2;
 }
 
 // Button tertiary
 .btn-tertiary {
-  border: toRem(1) solid $color-grey-dark;
-  color: $color-grey-dark;
-  background-color: $color-white;
+  border: fn.toRem(1) solid var.$color-grey-dark;
+  color: var.$color-grey-dark;
+  background-color: var.$color-white;
 }
 
 .btn-tertiary:hover,
 .btn-tertiary:focus,
 .btn-tertiary:active {
-  background-color: $color-grey-dark;
-  color: $color-white;
+  background-color: var.$color-grey-dark;
+  color: var.$color-white;
 }
 
 // Button quaternary
 .btn-quaternary {
-  border: toRem(1) solid $color-grey-dark;
-  color: $color-grey-dark;
-  background-color: $color-white;
+  border: fn.toRem(1) solid var.$color-grey-dark;
+  color: var.$color-grey-dark;
+  background-color: var.$color-white;
 }
 
 .btn-quaternary__wrapper {
-  line-height: toRem(17);
+  line-height: fn.toRem(17);
   text-align: left;
   position: relative;
-  padding-left: toRem(23);
+  padding-left: fn.toRem(23);
   display: inline-block;
 }
 
@@ -124,23 +137,23 @@
 //   left: 0;
 //   top: 50%;
 //   transform: translateY(-50%);
-//   margin-top: toRem(-2);
-//   height: toRem(16);
-//   width: toRem(16);
-//   background: url($path-icons + 'icon-link-grey-dark.svg') 0 0 no-repeat;
+//   margin-top: fn.toRem(-2);
+//   height: fn.toRem(16);
+//   width: fn.toRem(16);
+//   background: url(var.$path-icons + 'icon-link-grey-dark.svg') 0 0 no-repeat;
 //   background-size: cover;
 // }
 
 .btn-quaternary__subtext {
-  font-size: toRem(10);
-  font-family: $font-poppins-regular;
+  font-size: fn.toRem(10);
+  font-family: var.$font-poppins-regular;
   display: block;
   line-height: normal;
 }
 
 .btn-quaternary--multiline {
-  padding-bottom: toRem(6.25);
-  padding-top: toRem(6.25);
+  padding-bottom: fn.toRem(6.25);
+  padding-top: fn.toRem(6.25);
 }
 
 .btn-quaternary--multiline .btn-quaternary__wrapper::before {
@@ -150,11 +163,11 @@
 .btn-quaternary:hover,
 .btn-quaternary:focus,
 .btn-quaternary:active {
-  background-color: $color-grey-dark;
-  color: $color-white;
+  background-color: var.$color-grey-dark;
+  color: var.$color-white;
 }
 
 // .btn-quaternary:hover .btn-quaternary__wrapper::before, .btn-quaternary:focus .btn-quaternary__wrapper::before, .btn-quaternary:active .btn-quaternary__wrapper::before {
-//     background: url($path-icons + 'icon-link-white.svg') 0 0 no-repeat;
+//     background: url(var.$path-icons + 'icon-link-white.svg') 0 0 no-repeat;
 //     background-size: cover;
 // }

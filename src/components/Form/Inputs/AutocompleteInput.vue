@@ -15,9 +15,7 @@
           ref="autocompleteInput"
           :class="['c-input__button']"
           :display-value="(city: unknown) => (city ? (city as ICAutocomplete).label : '')"
-          :placeholder="placeholder"
-          :aria-describedby="errorId"
-          :aria-invalid="!!errorId"
+          v-bind="{ placeholder, 'aria-describedby': errorId, 'aria-invalid': !!errorId }"
           @change="handleInputChange"
         />
         <ComboboxOptions class="c-input__options">
@@ -153,77 +151,79 @@ defineExpose({
 </script>
 
 <style scoped lang="scss">
-@import 'src/styles/abstracts/variables';
-@import 'src/styles/abstracts/functions';
-@import 'src/styles/abstracts/mixins';
+@use 'src/styles/abstracts/variables' as var;
+@use 'src/styles/abstracts/functions' as func;
+@use 'src/styles/abstracts/mixins' as mix;
 
 .c-input__label {
   position: absolute;
-  top: toRem(8);
-  left: toRem(16);
+  top: func.toRem(8);
+  left: func.toRem(16);
 }
 
 .c-input__button {
   width: 100%;
-  height: toRem(56);
-  background-color: $color-white;
-  border: toRem(1) solid $color-grey-medium-3;
-  border-radius: toRem(8);
-  padding: toRem(28) toRem(16) toRem(8) toRem(16);
-  font-size: toRem(16);
-  font-family: $font-sarabun-light;
-  color: $color-grey;
+  height: func.toRem(56);
+  background-color: var.$color-white;
+  border: func.toRem(1) solid var.$color-grey-medium-3;
+  border-radius: func.toRem(8);
+  padding: func.toRem(28) func.toRem(16) func.toRem(8) func.toRem(16);
+  font-size: func.toRem(16);
+  font-family: var.$font-sarabun-light;
+  color: var.$color-grey;
   text-align: left;
 }
 
 .c-input__button:focus {
-  outline: toRem(2) solid $color-outline;
-  outline-offset: toRem(-1);
+  outline: func.toRem(2) solid var.$color-outline;
+  outline-offset: func.toRem(-1);
 }
 
 .c-input__options {
   position: absolute;
   z-index: 10;
-  background-color: $color-white;
-  box-shadow: 0 toRem(2) toRem(6) 0 rgba($color-black, 0.5);
-  top: toRem(56);
-  left: toRem(-1);
-  width: calc(100% + #{toRem(2)});
-  max-height: toRem(160);
+  background-color: var.$color-white;
+  box-shadow: 0 func.toRem(2) func.toRem(6) 0 rgba(var.$color-black, 0.5);
+  top: func.toRem(56);
+  left: func.toRem(-1);
+  width: calc(100% + #{func.toRem(2)});
+  max-height: func.toRem(160);
   overflow: auto;
   transition: height 0.3s ease-in-out;
 
   &::-webkit-scrollbar {
     -webkit-appearance: none;
-    width: toRem(7);
+    width: func.toRem(7);
   }
 
   &::-webkit-scrollbar-thumb {
-    border-radius: toRem(4);
-    background-color: rgba($color-black, 0.5);
-    box-shadow: 0 0 toRem(1) rgba($color-white, 0.5);
+    border-radius: func.toRem(4);
+    background-color: rgba(var.$color-black, 0.5);
+    box-shadow: 0 0 func.toRem(1) rgba(var.$color-white, 0.5);
   }
 }
 
 .c-input__option {
   display: flex;
   align-items: center;
-  font-family: $font-sarabun-regular;
-  font-size: toRem(14);
-  color: $color-black;
-  background-color: $color-white;
-  padding: toRem(10) toRem(16);
+  font-family: var.$font-sarabun-regular;
+  font-size: func.toRem(14);
+  color: var.$color-black;
+  background-color: var.$color-white;
+  padding: func.toRem(10) func.toRem(16);
   cursor: pointer;
 
   &.active,
   &:hover,
   &:focus {
-    background-color: $color-green-5;
+    background-color: var.$color-green;
+    color: var.$color-white;
   }
 }
 
 .c-input__option--active,
 .c-input__option--selected {
-  background-color: $color-green-5;
+  background-color: var.$color-green;
+  color: var.$color-white;
 }
 </style>

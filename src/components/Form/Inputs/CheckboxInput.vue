@@ -39,9 +39,9 @@ function handleChange(e: Event) {
 </script>
 
 <style scoped lang="scss">
-@import 'src/styles/abstracts/variables';
-@import 'src/styles/abstracts/functions';
-@import 'src/styles/abstracts/mixins';
+@use 'src/styles/abstracts/variables' as var;
+@use 'src/styles/abstracts/functions' as func;
+@use 'src/styles/abstracts/mixins' as mix;
 
 .c-checkbox {
   display: flex;
@@ -50,12 +50,12 @@ function handleChange(e: Event) {
 }
 
 .c-checkbox__input {
-  margin-right: toRem(23);
+  margin-right: func.toRem(23);
   appearance: none;
-  border-radius: toRem(8);
-  border: toRem(2) solid $color-grey-medium-4;
-  min-height: toRem(25);
-  min-width: toRem(25);
+  border-radius: func.toRem(8);
+  border: func.toRem(2) solid var.$color-grey-medium-4;
+  min-height: func.toRem(25);
+  min-width: func.toRem(25);
   cursor: pointer;
 }
 
@@ -69,6 +69,6 @@ function handleChange(e: Event) {
   left: 50%;
   transform: translate(-50%, -50%);
   content: '✔';
-  color: $color-green;
+  color: var.$color-green;
 }
 </style>

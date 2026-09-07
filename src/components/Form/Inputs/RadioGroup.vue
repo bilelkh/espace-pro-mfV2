@@ -10,8 +10,8 @@
       ]"
     >
       <div class="c-input__wrapper c-input__wrapper--auto">
-        <fieldset :aria-required="required" :aria-invalid="ariaInvalid" :aria-describedby="errorId" role="radiogroup">
-          <legend class="company-infos__legend c-input__label">
+        <fieldset :aria-required="required" :aria-invalid="ariaInvalid" :aria-describedby="errorId" role="radiogroup" :aria-labelledby="`legend-${name}`">
+          <legend :id="`legend-${name}`" class="company-infos__legend c-input__label">
             {{ legend }}
           </legend>
           <div class="company-infos__radios">
@@ -68,14 +68,14 @@ function handleChange(value: string) {
 </script>
 
 <style scoped lang="scss">
-@import 'src/styles/abstracts/variables';
-@import 'src/styles/abstracts/functions';
-@import 'src/styles/abstracts/mixins';
+@use 'src/styles/abstracts/variables' as var;
+@use 'src/styles/abstracts/functions' as func;
+@use 'src/styles/abstracts/mixins' as mix;
 
 .c-input__block {
-  @include mq-desktop {
-    width: calc(50% - #{toRem(24)});
-    margin: toRem(12);
+  @include mix.mq-desktop {
+    width: calc(50% - #{func.toRem(24)});
+    margin: func.toRem(12);
   }
 }
 
@@ -84,6 +84,6 @@ function handleChange(value: string) {
   display: flex;
   flex-flow: row wrap;
   position: relative;
-  top: toRem(-3.5);
+  top: func.toRem(-3.5);
 }
 </style>

@@ -8,7 +8,52 @@
       <p class="contact-form__info">
         {{ $t('form.text') }}
       </p>
-      <form class="contact-form__block">
+      <form ref="sfForm" class="contact-form__block" :action="sfFields?.actionURL" method="POST">
+        <template v-if="sfFields">
+          <input type="hidden" name="oid" :value="sfFields.oid" />
+          <input type="hidden" name="retURL" :value="sfFields.returnURL" />
+          <input type="hidden" :name="sfFields.lead_source.name" :value="sfFields.lead_source.value" />
+          <input type="hidden" :name="sfFields.salutation.name" :value="salutation?.label ?? ''" />
+          <input type="hidden" :name="sfFields.lastname.name" :value="lastname ?? ''" />
+          <input type="hidden" :name="sfFields.firstname.name" :value="firstname ?? ''" />
+          <input type="hidden" :name="sfFields.phone.name" :value="contact?.phone ?? ''" />
+          <input type="hidden" :name="sfFields.email.name" :value="contact?.email ?? ''" />
+          <input
+            type="hidden"
+            :name="sfFields.organisation.name"
+            :value="personalCompany?.organisation?.label || ''"
+          />
+          <input
+            v-if="personalCompany?.otherOrganisation && sfFields.otherOrganisation"
+            type="hidden"
+            :name="sfFields.otherOrganisation.name"
+            :value="personalCompany?.otherOrganisation"
+          />
+          <input
+            type="hidden"
+            :name="sfFields.sector.name"
+            :value="personalCompany?.sector?.label || ''"
+          />
+          <input
+            v-if="personalCompany?.otherSector && sfFields.otherSector"
+            type="hidden"
+            :name="sfFields.otherSector.name"
+            :value="personalCompany?.otherSector"
+          />
+          <input type="hidden" :name="sfFields.zipcode.name" :value="String(company?.zipcode?.code ?? '')" />
+          <input type="hidden" :name="sfFields.zip.name" :value="String(company?.zipcode?.code ?? '')" />
+          <input
+            type="hidden"
+            :name="sfFields.distributionChannel.name"
+            :value="company?.distributionChannel?.label ?? ''"
+          />
+          <input
+            type="hidden"
+            :name="sfFields.salesRevenues.name"
+            :value="company?.salesRevenues?.label ?? ''"
+          />
+          <input type="hidden" :name="sfFields.creditVolume.name" :value="company?.creditVolume?.label ?? ''" />
+        </template>
         <transition name="fade" mode="out-in">
           <component
             :is="activeStep === 1 ? PersonalInfosStep : CompanyInfosStep"
@@ -26,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { ref, provide } from 'vue';
 import Stepper from '@/components/Form/Stepper/Stepper.vue';
 import PersonalInfosStep from '@/components/Form/ContactForm/PersonalInfosStep.vue';
 import CompanyInfosStep from '@/components/Form/ContactForm/CompanyInfosStep.vue';
@@ -35,81 +80,49 @@ import { usePersonalInfosFormStore } from '@/stores/personalInfosForm';
 import { useCompanylInfosFormStore } from '@/stores/companyInfosForm';
 import { storeToRefs } from 'pinia';
 import { changePageTitle } from '@/mixins/title';
-import {
-  dataLayerGAWrapper,
-  eaCollectorWrapper,
-  eaCollectorWrapperOnce,
-  generateFormRef,
-  getPreviousPage,
-  getTaggingPath,
-  setPreviousPage
-} from '@/mixins/taggingPlan';
+import { dataLayerGAWrapper, eaCollectorWrapper } from '@/mixins/taggingPlan';
 import { getHost } from '@/mixins/host';
 import { espaceProConfig } from '@/config/config';
-import { clientYesNoRadioInputs, customerTypeRadioInputs, getRadioLabel } from '@/config/form-options';
+import type { SalesForceFormConfig } from '@/config/config';
 
 const personalInfosFormStore = usePersonalInfosFormStore();
 const companyInfosForm = useCompanylInfosFormStore();
 
-const { lastname, firstname, contact, company: personalCompany } = storeToRefs(personalInfosFormStore);
+const { salutation, lastname, firstname, contact, company: personalCompany } = storeToRefs(personalInfosFormStore);
 const { company } = storeToRefs(companyInfosForm);
+const sfForm = ref<HTMLFormElement | null>(null);
 const activeStep = ref(1);
-const loading = ref(false);
 
-onMounted(() => {
-  manageEulerianOnDisplayContactForm();
-});
+const sfFields = espaceProConfig.salesForceFormConfig
+  ? (JSON.parse(espaceProConfig.salesForceFormConfig) as SalesForceFormConfig).form
+  : null;
+provide('sfFields', sfFields);
 
 const changeActiveStep = () => {
   activeStep.value++;
 };
 
-const submitContactForm = async (): Promise<void> => {
-  const form = document.createElement('form');
-  form.setAttribute('method', 'post');
-  form.setAttribute('action', espaceProConfig.submitContactFormUrl);
-  form.style.display = 'none';
+const submitContactForm = (): void => {
+  const siretInput = document.getElementById(sfFields?.siret.id ?? 'siret') as HTMLInputElement;
+  if (siretInput) siretInput.value = companyInfosForm.company.siret.replace(/\s/g, '');
 
-  appendFormInput('lastname', lastname.value, form);
-  appendFormInput('firstname', firstname.value, form);
-  appendFormInput('phone', contact.value?.phone, form);
-  appendFormInput('email', contact.value?.email, form);
-  appendFormInput('organisation', `${personalCompany.value?.organisation?.id}`, form);
-  appendFormInput('sector', `${personalCompany.value?.sector?.id}`, form);
-  appendFormInput('companyName', company.value?.name, form);
-  appendFormInput('siren', company.value?.siren, form);
-  appendFormInput('zipcode', String(company.value?.zipcode?.code), form);
-  appendFormInput('channel', `${company.value?.distributionChannel?.id}`, form);
-  appendFormInput('salesRevenues', `${company.value?.salesRevenues?.id}`, form);
-  appendFormInput('customersType', company.value?.customersType, form);
-  appendFormInput('alreadyCustomer', company.value?.caCustomerAlready, form);
+  if (sfForm.value && !import.meta.env.PROD) {
+    const formData = new FormData(sfForm.value);
 
-  document.getElementsByTagName('body')[0].appendChild(form);
-
-  form.submit();
-};
-
-const appendFormInput = (name: string, value: string | undefined | null, form: HTMLFormElement): void => {
-  if (value === undefined || value === null) return;
-
-  const element = document.createElement('input');
-
-  element.setAttribute('type', 'text');
-  element.setAttribute('name', name);
-  element.setAttribute('value', value);
-
-  form.appendChild(element);
+    const payload: Record<string, string> = {};
+    formData.forEach((value, key) => {
+      payload[key] = value as string;
+    });
+    console.table(Object.entries(payload).map(([name, value]) => ({ name, value })));
+  }
+  sfForm.value?.submit();
 };
 
 const handleSumbitContactForm = () => {
-  loading.value = true;
-
   changePageTitle('Confirmation', 'Formulaire');
   manageGtmOnSubmitContactForm();
   manageEulerianOnSubmitContactForm();
   submitContactForm();
-
-  loading.value = false;
 };
 
 const handleDisplayPersonalInfosStep = () => {
@@ -124,88 +137,75 @@ const manageGtmOnSubmitContactForm = (): void => {
   });
 };
 
-// 5.3. Page de contact personne : tag de page, une seule fois à l'affichage du formulaire.
-const manageEulerianOnDisplayContactForm = (): void => {
-  eaCollectorWrapperOnce('contact_perso', [
-    'rtgsite',
-    'professionnel',
-    'rtgpg',
-    'form',
-    'prdref',
-    'formulaire_contact',
-    'scart',
-    '1',
-    'rtgidform',
-    'contact',
-    'rtgpagename',
-    'contact_perso',
-    'path',
-    getTaggingPath(),
-    'from',
-    getHost(),
-    'rtgpreviouspage',
-    getPreviousPage()
-  ]);
-
-  setPreviousPage('contact_perso');
-};
-
-// 5.5. Envoi du formulaire (clic sur "Nous contacter").
 const manageEulerianOnSubmitContactForm = (): void => {
   eaCollectorWrapper([
     'rtgsite',
     'professionnel',
     'rtgpg',
     'form',
-    'type',
-    personalInfosFormStore.company.sector?.label,
-    'ref',
-    generateFormRef(),
-    'estimate',
-    '1',
     'rtgidform',
     'contact',
+    'type',
+    `${personalInfosFormStore.company.sector?.label}`,
+    'estimate',
+    '1',
+    'ref',
+    '_' + Math.random().toString(36).substr(2, 9),
     'rtgpagename',
-    'contact_entreprise',
+    'envoi_formulaire_contact',
     'path',
-    getTaggingPath(),
+    window.location.pathname,
     'from',
     getHost(),
+    'rtgpreviouspage',
+    document.referrer,
+    'rtgsalutation',
+    personalInfosFormStore.salutation?.label,
+    'rtgnom',
+    personalInfosFormStore.lastname,
+    'rtgprenom',
+    personalInfosFormStore.firstname,
     'rtgorganisation',
-    personalInfosFormStore.company.organisation?.label,
+    `${personalInfosFormStore.company.otherOrganisation || personalInfosFormStore.company.organisation?.id}`,
     'rtgphonenumber',
     personalInfosFormStore.contact.phone,
     'email',
     personalInfosFormStore.contact.email,
     'rtgsecteuractivité',
-    personalInfosFormStore.company.sector?.label,
+    `${personalInfosFormStore.company.otherSector || personalInfosFormStore.company.sector?.id}`,
+    'rtgraisonsociale',
+    companyInfosForm.company.name,
+    'rtgsiren',
+    companyInfosForm.company.siren,
+    'rtgsiret',
+    companyInfosForm.company.siret.replace(/\s/g, ''),
     'rtgcodepostal',
     companyInfosForm.company.zipcode?.code,
+    'rtgzip',
+    companyInfosForm.company.zipcode?.code,
     'rtgcanaldistribution',
-    companyInfosForm.company.distributionChannel?.label,
+    `${companyInfosForm.company.distributionChannel?.id}`,
     'rtgchiffredaffaires',
-    companyInfosForm.company.salesRevenues?.label,
+    `${companyInfosForm.company.salesRevenues?.id}`,
     'rtgclientele',
-    getRadioLabel(customerTypeRadioInputs, companyInfosForm.company.customersType),
+    companyInfosForm.company.customersType,
     'rtgclientbanquecagroupe',
-    `${companyInfosForm.company.caCustomerAlready === clientYesNoRadioInputs[0].id}`,
-    'rtgpreviouspage',
-    getPreviousPage()
+    companyInfosForm.company.caCustomerAlready
   ]);
 };
 </script>
 
 <style scoped lang="scss">
-@import 'src/styles/abstracts/variables';
-@import 'src/styles/abstracts/functions';
-@import 'src/styles/abstracts/mixins';
+@use 'src/styles/abstracts/variables' as var;
+@use 'src/styles/abstracts/functions' as func;
+@use 'src/styles/abstracts/mixins' as mix;
 
 .contact-form__block {
   order: 4;
 }
 
 .contact-form {
-  @include mq-desktop {
+  @include mix.mq-desktop {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -216,62 +216,62 @@ const manageEulerianOnSubmitContactForm = (): void => {
   display: flex;
   flex-flow: column nowrap;
 
-  @include mq-desktop {
+  @include mix.mq-desktop {
     width: 50%;
-    min-width: toRem(508);
+    min-width: func.toRem(508);
   }
 }
 
 .contact-form__confirmation {
-  margin-top: toRem(83);
+  margin-top: func.toRem(83);
 
-  @include mq-desktop {
+  @include mix.mq-desktop {
     grid-column-start: 1;
     grid-column-end: 7;
   }
 }
 
 .contact-form__img {
-  @include mq-to-tablet {
+  @include mix.mq-to-tablet {
     display: none;
   }
 
-  @include mq-desktop {
+  @include mix.mq-desktop {
     flex: 50%;
   }
 
   img {
-    @include mq-desktop {
+    @include mix.mq-desktop {
       display: block;
       width: 100%;
-      max-width: toRem(630);
+      max-width: func.toRem(630);
       margin: auto;
     }
   }
 }
 
 .contact-form__title {
-  margin-bottom: toRem(32);
+  margin-bottom: func.toRem(32);
   order: 2;
 }
 
 .contact-form__info {
-  font-family: $font-poppins-regular;
-  font-size: toRem(12);
-  line-height: toRem(18);
-  color: $color-grey-dark;
+  font-family: var.$font-poppins-regular;
+  font-size: func.toRem(12);
+  line-height: func.toRem(18);
+  color: var.$color-primary-base !important;
   order: 3;
 
-  @include mq-desktop {
-    margin-bottom: toRem(4);
+  @include mix.mq-desktop {
+    margin-bottom: func.toRem(4);
   }
 }
 
 .contact-form__step {
-  @include mq-desktop {
+  @include mix.mq-desktop {
     display: flex;
     flex-flow: row wrap;
-    margin: 0 toRem(-12);
+    margin: 0 func.toRem(-12);
   }
 }
 

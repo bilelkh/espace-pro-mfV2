@@ -1,9 +1,10 @@
 <template>
   <div class="contact-form__step">
     <Input
-      id="companyName"
+      :id="sfFields?.companyName.id ?? 'companyName'"
       :ref="(el: any) => saveInputRef('companyName', el)"
       v-model="companyInfosForm.company.name"
+      :name="sfFields?.companyName.name"
       :label="$t('form.step2.fields.companyName.label')"
       :placeholder="$t('form.step2.fields.companyName.placeholder')"
       type="text"
@@ -14,22 +15,25 @@
       :is-invalid="$v.company.name.$invalid"
     />
     <Input
-      id="siren"
-      :ref="(el: any) => saveInputRef('siren', el)"
-      v-model="companyInfosForm.company.siren"
-      v-maska="'### ### ###'"
-      :label="$t('form.step2.fields.siren.label')"
-      :placeholder="$t('form.step2.fields.siren.placeholder')"
+      :id="sfFields?.siret.id ?? 'siret'"
+      :ref="(el: any) => saveInputRef('siret', el)"
+      v-model="companyInfosForm.company.siret"
+      v-maska="'### ### ### #####'"
+      :name="sfFields?.siret.name"
+      :label="$t('form.step2.fields.siret.label')"
+      :placeholder="$t('form.step2.fields.siret.placeholder')"
       type="text"
+      maxlength="17"
       :required="true"
-      :aria-invalid="$v.company.siren.$error"
-      :errors="$v.company.siren.$errors"
-      :reset-validator="$v.company.siren.$reset"
-      :is-invalid="$v.company.siren.$invalid"
+      :aria-invalid="$v.company.siret.$error"
+      :errors="$v.company.siret.$errors"
+      :reset-validator="$v.company.siret.$reset"
+      :is-invalid="$v.company.siret.$invalid"
     />
+
     <AutocompleteInput
-      id="zipcode"
-      :ref="(el: any) => saveInputRef('zipcode', el)"
+      :id="sfFields?.zipcode.id ?? 'zip'"
+      :ref="(el: any) => saveInputRef('zip', el)"
       v-model="companyInfosForm.company.zipcode"
       :label="$t('form.step2.fields.zipcode.label')"
       :placeholder="'Indiquer votre code postal'"
@@ -38,8 +42,9 @@
       :errors="$v.company.zipcode.$errors"
       :reset-validator="$v.company.zipcode.$reset"
     />
+
     <SelectInput
-      id="distributionChannel"
+      :id="sfFields?.distributionChannel.id ?? 'distributionChannel'"
       :ref="(el: any) => saveInputRef('distributionChannel', el)"
       v-model="companyInfosForm.company.distributionChannel"
       :label="$t('form.step2.fields.distributionChannel.label')"
@@ -50,22 +55,21 @@
       :options="distributionChannelOptions"
     />
     <SelectInput
-      v-if="showSalesRevenues"
-      id="salesRevenues"
+      :id="sfFields?.salesRevenues.id ?? 'salesRevenues'"
       :ref="(el: any) => saveInputRef('salesRevenues', el)"
       v-model="companyInfosForm.company.salesRevenues"
       class="c-input--sales-revenues"
       :label="$t('form.step2.fields.salesRevenues.label')"
-      :aria-invalid="$v.company.salesRevenues.$error"
-      :errors="$v.company.salesRevenues.$errors"
-      :reset-validator="$v.company.salesRevenues.$reset"
+      :aria-invalid="$v.company.salesRevenues!.$error"
+      :errors="$v.company.salesRevenues!.$errors"
+      :reset-validator="$v.company.salesRevenues!.$reset"
       :placeholder="$t('form.step2.fields.salesRevenues.placeholder')"
       :options="salesRevenuesOptions"
     />
     <RadioGroup
       v-model="companyInfosForm.company.customersType"
       :legend="$t('form.step2.fields.customersType.label')"
-      name="customersType"
+      :name="sfFields?.customersType.name ?? 'customersType'"
       :required="true"
       :aria-invalid="$v.company.customersType.$error"
       :radio-inputs-param="customerTypeRadioInputs"
@@ -74,15 +78,25 @@
     />
     <RadioGroup
       v-model="companyInfosForm.company.caCustomerAlready"
-      legend="Ma société/Mon enseigne est cliente chez CA Groupe (LCL, Crédit Agricole)"
-      name="caCustomerAlready"
+      legend="Ma société/Mon enseigne est cliente chez  Groupe Crédit Agricole (LCL, Crédit Agricole)"
+      :name="sfFields?.caCustomerAlready.name ?? 'caCustomerAlready'"
       :radio-inputs-param="clientYesNoRadioInputs"
       :required="true"
       :aria-invalid="$v.company.caCustomerAlready.$error"
       :errors="$v.company.caCustomerAlready.$errors"
       :reset-validator="$v.company.caCustomerAlready.$reset"
     />
-
+    <SelectInput
+      :id="sfFields?.creditVolume.id ?? 'creditVolume'"
+      v-model="companyInfosForm.company.creditVolume"
+      class="c-input--sales-revenues"
+      :label="$t('form.step2.fields.creditVolume.label')"
+      :placeholder="$t('form.step2.fields.creditVolume.placeholder')"
+      :options="creditVolumeOptions"
+      :aria-invalid="$v.company.creditVolume.$error"
+      :errors="$v.company.creditVolume.$errors"
+      :reset-validator="$v.company.creditVolume.$reset"
+    />
     <div class="company-infos__buttons">
       <button
         class="btn btn-primary"
@@ -109,7 +123,6 @@ import { required, helpers } from '@vuelidate/validators';
 
 import Input from '@/components/Form/Inputs/Input.vue';
 import SelectInput from '@/components/Form/Inputs/SelectInput.vue';
-import AutocompleteInput from '@/components/Form/Inputs/AutocompleteInput.vue';
 
 import { usePersonalInfosFormStore } from '@/stores/personalInfosForm';
 import { useCompanylInfosFormStore } from '@/stores/companyInfosForm';
@@ -118,26 +131,37 @@ import { changePageTitle } from '@/mixins/title';
 import { dataLayerGAWrapper } from '@/mixins/taggingPlan';
 import type { SelectOption } from '@/models/form';
 import { useInputs } from '@/composables/inputs.composable';
-import { computed } from 'vue';
+import { inject } from 'vue';
+import type { SalesForceFormConfig } from '@/config/config';
 import RadioGroup from '@/components/Form/Inputs/RadioGroup.vue';
-import { clientYesNoRadioInputs, customerTypeRadioInputs } from '@/config/form-options';
-import { hasSalesRevenues } from '@/services/business-rules';
+import type { RadioInputParam } from '@/models/input';
+import AutocompleteInput from '@/components/Form/Inputs/AutocompleteInput.vue';
+
+const customerTypeRadioInputs: RadioInputParam[] = [
+  { id: 'B2C', label: 'Particulier' },
+  { id: 'B2B', label: 'Pro' },
+  { id: 'customerIndividualPro', label: 'Les deux' }
+];
+
+const clientYesNoRadioInputs: RadioInputParam[] = [
+  { id: 'true', label: 'Oui' },
+  { id: 'false', label: 'Non' }
+];
 
 const { t, tm } = useI18n();
 const { saveInputRef, focusOnErrors } = useInputs();
+const sfFields = inject<SalesForceFormConfig['form'] | null>('sfFields', null);
 
 const emit = defineEmits(['submitContactForm', 'goBackPersonnalInfosStep']);
 
 const distributionChannelOptions: SelectOption[] = tm('form.step2.fields.distributionChannel.options');
 const salesRevenuesOptions: SelectOption[] = tm('form.step2.fields.salesRevenues.options');
-
+const creditVolumeOptions: SelectOption[] = tm('form.step2.fields.creditVolume.options');
 const regexAlpha = helpers.regex(/^[A-Za-zÀ-ÖØ-öø-ÿ0-9 ]{2,50}$/);
-const regexSiren = helpers.regex(/^[0-9 ]{11}$/);
+const regexSiret = helpers.regex(/^[0-9 ]{17}$/);
 
 const personalInfosFormStore = usePersonalInfosFormStore();
 const companyInfosForm = useCompanylInfosFormStore();
-
-const showSalesRevenues = computed(() => hasSalesRevenues(personalInfosFormStore.company.sector?.id));
 
 const formValidationRules = {
   company: {
@@ -145,9 +169,9 @@ const formValidationRules = {
       required: helpers.withMessage(t('form.step2.fields.companyName.validation.required'), required),
       alpha: helpers.withMessage(t('form.step2.fields.companyName.validation.alpha'), regexAlpha)
     },
-    siren: {
-      required: helpers.withMessage(t('form.step2.fields.siren.validation.required'), required),
-      siren: helpers.withMessage(t('form.step2.fields.siren.validation.numeric'), regexSiren)
+    siret: {
+      required: helpers.withMessage(t('form.step2.fields.siret.validation.required'), required),
+      siret: helpers.withMessage(t('form.step2.fields.siret.validation.numeric'), regexSiret)
     },
     zipcode: {
       required: helpers.withMessage(t('form.step2.fields.zipcode.validation.required'), required)
@@ -164,13 +188,10 @@ const formValidationRules = {
         required
       )
     },
-    ...(showSalesRevenues.value
-      ? {
-          salesRevenues: {
-            required: helpers.withMessage(t('form.step2.fields.salesRevenues.validation.required'), required)
-          }
-        }
-      : {})
+    creditVolume: {},
+    salesRevenues: {
+      required: helpers.withMessage(t('form.step2.fields.salesRevenues.validation.required'), required)
+    }
   }
 };
 
@@ -178,10 +199,11 @@ const $v = useVuelidate(formValidationRules, companyInfosForm);
 
 async function handleSubmitContactForm() {
   const isFormCorrect = await $v.value.$validate();
+
   if (isFormCorrect) {
     emit('submitContactForm');
   } else {
-    const errorFields = await $v.value.$silentErrors;
+    const errorFields = $v.value.$silentErrors;
     let errorFieldsName = '';
     errorFields.forEach((element) => {
       if (errorFieldsName === '') {
@@ -197,7 +219,7 @@ async function handleSubmitContactForm() {
       error_field: errorFieldsName
     });
 
-    changePageTitle('Formulaire nous contacter étape 2 votre entreprise', 'erreur');
+    changePageTitle('Formulaire nous contacter étape 2 votre entreprise', 'erreur de saisie', 'Pro Sofinco');
 
     focusOnErrors();
   }
@@ -205,35 +227,35 @@ async function handleSubmitContactForm() {
 </script>
 
 <style scoped lang="scss">
-@import 'src/styles/abstracts/variables';
-@import 'src/styles/abstracts/functions';
-@import 'src/styles/abstracts/mixins';
+@use 'src/styles/abstracts/variables' as var;
+@use 'src/styles/abstracts/functions' as func;
+@use 'src/styles/abstracts/mixins' as mix;
 
 .c-input__block {
-  @include mq-desktop {
-    width: calc(50% - #{toRem(24)});
-    margin: toRem(12);
+  @include mix.mq-desktop {
+    width: calc(50% - #{func.toRem(24)});
+    margin: func.toRem(12);
   }
 }
 
 .btn-primary {
   position: relative;
   display: block;
-  min-width: toRem(186);
+  min-width: func.toRem(186);
 
   span {
-    @include mq-desktop {
-      margin-left: toRem(-12);
+    @include mix.mq-desktop {
+      margin-left: func.toRem(-12);
       vertical-align: sub;
     }
   }
 
-  @include mq-mobile {
+  @include mix.mq-mobile {
     width: auto;
     max-width: inherit;
   }
 
-  @include mq-mobile-less {
+  @include mix.mq-mobile-less {
     display: block;
     width: 100%;
   }
@@ -241,51 +263,52 @@ async function handleSubmitContactForm() {
   &::after {
     content: '';
     position: absolute;
-    margin-left: toRem(16);
-    right: toRem(16);
+    margin-left: func.toRem(16);
+    right: func.toRem(16);
     top: 50%;
     transform: translateY(-50%);
-    background: url($path-icons + 'icon-arrow-right-white.svg') 0 0 no-repeat;
+    background: url(var.$path-icons + 'icon-arrow-right-white.svg') 0 0 no-repeat;
     background-size: cover;
-    height: toRem(16);
-    width: toRem(16);
+    height: func.toRem(16);
+    width: func.toRem(16);
 
-    @include mq-to-tablet {
+    @include mix.mq-to-tablet {
       display: none;
     }
   }
 
   &:hover::after,
   &:focus::after {
-    background: url($path-icons + 'icon-arrow-right-pink.svg') 0 0 no-repeat;
+    mask:  url(var.$path-icons + 'icon-arrow-right-white.svg') 0 0 no-repeat;
+    mask-size: cover;
   }
 }
 
 .c-checkbox {
-  @include mq-to-tablet {
-    padding: 0 toRem(16) toRem(8) toRem(16);
+  @include mix.mq-to-tablet {
+    padding: 0 func.toRem(16) func.toRem(8) func.toRem(16);
   }
 }
 
 .company-infos__buttons {
-  @include mq-to-tablet {
-    margin-top: toRem(24);
+  @include mix.mq-to-tablet {
+    margin-top: func.toRem(24);
   }
 
-  @include mq-mobile-less {
+  @include mix.mq-mobile-less {
     display: block;
     width: 100%;
   }
 
-  @include mq-from-mobile-less {
+  @include mix.mq-from-mobile-less {
     display: flex;
     flex-flow: row-reverse nowrap;
     justify-content: space-between;
   }
 
-  @include mq-desktop {
-    width: calc(100% - #{toRem(24)});
-    margin: toRem(12) auto 0 auto;
+  @include mix.mq-desktop {
+    width: calc(100% - #{func.toRem(24)});
+    margin: func.toRem(12) auto 0 auto;
   }
 }
 
@@ -295,20 +318,20 @@ async function handleSubmitContactForm() {
   display: flex;
   align-items: center;
 
-  @include mq-mobile-less {
+  @include mix.mq-mobile-less {
     display: block;
     width: 100%;
   }
 
   img {
-    height: toRem(10);
+    height: func.toRem(10);
   }
 }
 
 .company-infos__button-text {
-  margin-left: toRem(5);
+  margin-left: func.toRem(5);
 
-  @include mq-to-tablet {
+  @include mix.mq-to-tablet {
     margin-left: 0;
   }
 }
@@ -316,11 +339,11 @@ async function handleSubmitContactForm() {
 .chevron--left {
   transform: rotate(-135deg);
   border-style: solid;
-  border-width: toRem(2) toRem(2) 0 0;
-  width: toRem(8);
-  height: toRem(8);
+  border-width: func.toRem(2) func.toRem(2) 0 0;
+  width: func.toRem(8);
+  height: func.toRem(8);
 
-  @include mq-to-tablet {
+  @include mix.mq-to-tablet {
     display: none;
   }
 }
@@ -328,37 +351,24 @@ async function handleSubmitContactForm() {
 .btn-secondary {
   display: flex;
   align-items: center;
-  font-family: $font-poppins-semi-bold;
-  text-transform: none;
-  border-radius: toRem(8);
-  cursor: pointer;
-  transition: 0.25s ease-in-out;
-  background-color: $color-white;
-  border: toRem(1) solid $color-pink;
-  color: $color-pink;
-  font-size: toRem(14);
-  padding: toRem(14.5) toRem(40);
+  font-family: var.$font-poppins-semi-bold;
+  border-radius: var(--Full, 80px);
+  border: func.toRem(1) solid var.$color-primary-base;
+  color: var.$color-primary-base;
+  font-size: func.toRem(14);
+  padding: func.toRem(14.5) func.toRem(40);
 
-  @include mq-mobile {
+  @include mix.mq-mobile {
     width: auto;
     max-width: inherit;
   }
 
-  @include mq-mobile-less {
+  @include mix.mq-mobile-less {
     display: block;
     width: 100%;
-    margin-top: toRem(16);
+    margin-top: func.toRem(16);
   }
 
-  &:hover,
-  &:focus {
-    background-color: $color-white;
-    color: $color-pink;
-  }
-
-  &:hover {
-    box-shadow: 0 toRem(4) toRem(10) rgb(221 3 81 / 25%);
-  }
 }
 
 /*legend.c-input__label {
@@ -370,13 +380,13 @@ async function handleSubmitContactForm() {
 }*/
 
 .c-input--sales-revenues {
-  @include mq-desktop-s {
+  @include mix.mq-desktop-s {
     :deep(.c-input__button) {
-      height: toRem(75);
+      height: func.toRem(75);
     }
 
     :deep(.c-input__options) {
-      top: toRem(75);
+      top: func.toRem(75);
     }
   }
 }

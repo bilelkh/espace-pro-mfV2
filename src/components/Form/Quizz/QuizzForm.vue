@@ -19,11 +19,10 @@
             v-for="option in activityOptions"
             :id="option.id"
             :key="option.id"
-            v-model="quizzFormStore.activity"
             name="activity"
             :label="option.label"
             :checked="quizzFormStore.activity === option.id"
-            @change="changeActiveStep"
+            @update:model-value="(value: string) => { quizzFormStore.activity = value; changeActiveStep(); }"
           />
         </div>
         <div v-if="activeStep === 2" class="distributionChannel">
@@ -31,11 +30,10 @@
             v-for="option in distributionChannelOptions"
             :id="option.id"
             :key="option.id"
-            v-model="quizzFormStore.distributionChannel"
             name="distributionChannel"
             :label="option.label"
             :checked="quizzFormStore.distributionChannel === option.id"
-            @change="changeActiveStep"
+            @update:model-value="(value: string) => { quizzFormStore.distributionChannel = value; changeActiveStep(); }"
           />
         </div>
         <div v-if="activeStep === 3" class="cart">
@@ -43,11 +41,10 @@
             v-for="option in cartOptions"
             :id="option.id"
             :key="option.id"
-            v-model="quizzFormStore.cart"
             name="cart"
             :label="option.label"
             :checked="quizzFormStore.cart === option.id"
-            @change="changeActiveStep"
+            @update:model-value="(value: string) => { quizzFormStore.cart = value; changeActiveStep(); }"
           />
         </div>
         <div v-if="activeStep === 4" class="clients">
@@ -55,11 +52,10 @@
             v-for="option in clientsOptions"
             :id="option.id"
             :key="option?.id"
-            v-model="quizzFormStore.clients"
             name="clients"
             :label="option.label"
             :checked="quizzFormStore.clients === option.id"
-            @change="submitContactForm"
+            @update:model-value="(value: string) => { quizzFormStore.clients = value; submitContactForm(); }"
           />
         </div>
       </form>
@@ -142,73 +138,73 @@ async function submitContactForm() {
 </script>
 
 <style scoped lang="scss">
-@import 'src/styles/abstracts/variables';
-@import 'src/styles/abstracts/functions';
-@import 'src/styles/abstracts/mixins';
+@use 'src/styles/abstracts/variables' as var;
+@use 'src/styles/abstracts/functions' as func;
+@use 'src/styles/abstracts/mixins' as mix;
 
 .quizz-form {
-  @include mq-mobile {
+  @include mix.mq-mobile {
     text-align: center;
   }
 
-  @include mq-tablet {
+  @include mix.mq-tablet {
     text-align: center;
   }
 
-  @include mq-desktop {
+  @include mix.mq-desktop {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: toRem(40);
+    gap: func.toRem(40);
   }
 }
 
 .quizz-form__stepper {
   display: flex;
   align-items: center;
-  box-shadow: 0 toRem(4) toRem(20) rgba(0, 0, 0, 0.07);
-  border-radius: toRem(70);
-  padding: toRem(11) toRem(12);
+  box-shadow: 0 func.toRem(4) func.toRem(20) rgba(0, 0, 0, 0.07);
+  border-radius: func.toRem(70);
+  padding: func.toRem(11) func.toRem(12);
   max-width: fit-content;
 
-  @include mq-mobile {
-    margin: toRem(27) auto toRem(24);
+  @include mix.mq-mobile {
+    margin: func.toRem(27) auto func.toRem(24);
   }
 
-  @include mq-tablet {
-    margin: toRem(27) auto toRem(24);
+  @include mix.mq-tablet {
+    margin: func.toRem(27) auto func.toRem(24);
   }
 }
 
 .quizz-form__stepper-container {
-  background-color: $bg-color-blue-light;
-  width: toRem(415);
-  height: toRem(10);
+  background-color: var.$bg-color-blue-light;
+  width: func.toRem(415);
+  height: func.toRem(10);
 }
 
 .quizz-form__stepper-line {
-  background-color: $color-green;
-  height: toRem(10);
-  box-shadow: 0 toRem(4) toRem(20) rgba(0, 0, 0, 0.07);
-  border-radius: toRem(70);
+  background-color: var.$color-green;
+  height: func.toRem(10);
+  box-shadow: 0 func.toRem(4) func.toRem(20) rgba(0, 0, 0, 0.07);
+  border-radius: func.toRem(70);
 }
 
 .quizz-form__stepper-step {
   display: flex;
-  font-family: $font-poppins-regular;
-  font-size: toRem(12);
-  line-height: toRem(18);
-  color: $color-grey-dark;
-  margin-left: toRem(11);
+  font-family: var.$font-poppins-regular;
+  font-size: func.toRem(12);
+  line-height: func.toRem(18);
+  color: var.$color-grey-dark;
+  margin-left: func.toRem(11);
 
   img {
-    height: toRem(18);
-    width: toRem(18);
-    margin-right: toRem(8);
+    height: func.toRem(18);
+    width: func.toRem(18);
+    margin-right: func.toRem(8);
   }
 }
 
 .quizz-form__form {
-  @include mq-desktop {
+  @include mix.mq-desktop {
     grid-column-start: 1;
     grid-column-end: 7;
   }
@@ -219,10 +215,10 @@ async function submitContactForm() {
     width: 100%;
   }
 
-  @include mq-mobile {
-    margin-top: toRem(32);
+  @include mix.mq-mobile {
+    margin-top: func.toRem(32);
   }
-  @include mq-desktop {
+  @include mix.mq-desktop {
     grid-column-start: 8;
     grid-column-end: 12;
     place-self: center;
@@ -230,7 +226,7 @@ async function submitContactForm() {
 }
 
 .quizz-form__title {
-  margin-bottom: toRem(32);
+  margin-bottom: func.toRem(32);
 }
 
 .quizz-form__button {
@@ -240,60 +236,61 @@ async function submitContactForm() {
   align-items: center;
 
   img {
-    height: toRem(10);
+    height: func.toRem(10);
   }
 }
 
 .quizz-form__button-text {
-  margin-left: toRem(5);
+  margin-left: func.toRem(5);
 }
 
 .quizz-form__button .chevron--left {
   transform: rotate(-135deg);
   border-style: solid;
-  border-width: toRem(2) toRem(2) 0 0;
-  width: toRem(8);
-  height: toRem(8);
+  border-width: func.toRem(2) func.toRem(2) 0 0;
+  width: func.toRem(8);
+  height: func.toRem(8);
 }
 
 .quizz-form__button .btn-secondary {
   display: flex;
   align-items: center;
-  font-family: $font-sarabun-regular;
+  font-family: var.$font-sarabun-regular;
   text-transform: none;
-  border-radius: toRem(6);
+  border-radius: func.toRem(6);
   cursor: pointer;
   transition: 0.25s ease-in-out;
-  background-color: $color-white;
-  border: toRem(1) solid $color-pink;
-  color: $color-pink;
-  font-size: toRem(14);
-  padding: toRem(15) toRem(38);
+  background-color: var.$color-white;
+  border: func.toRem(1) solid var.$color-pink;
+  color: var.$color-pink;
+  font-size: func.toRem(14);
+  padding: func.toRem(15) func.toRem(38);
 
   &:hover {
-    box-shadow: 0 toRem(4) toRem(10) rgb(221 3 81 / 25%);
-    background-color: $color-white;
+    box-shadow: 0 func.toRem(4) func.toRem(10) rgb(221 3 81 / 25%);
+    background-color: var.$color-white;
   }
 }
 </style>
 
 <style lang="scss">
-@import 'src/styles/abstracts/functions';
+@use 'src/styles/abstracts/functions' as func;
+@use 'src/styles/abstracts/variables' as var;
 
 .quizz-form .c-radio {
   cursor: pointer;
-  margin: toRem(15) 0;
-  border: toRem(1) solid $color-grey-light-2;
-  border-radius: toRem(16);
-  padding: toRem(16);
+  margin: func.toRem(15) 0;
+  border: func.toRem(1) solid var.$color-grey-light-2;
+  border-radius: func.toRem(16);
+  padding: func.toRem(16);
 }
 
 .quizz-form .c-radio__input {
-  height: toRem(24);
-  width: toRem(24);
+  height: func.toRem(24);
+  width: func.toRem(24);
 }
 
 .quizz-form .c-radio.checked {
-  border: toRem(1) solid $color-green;
+  border: func.toRem(1) solid var.$color-green;
 }
 </style>
