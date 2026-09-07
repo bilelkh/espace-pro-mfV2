@@ -277,7 +277,7 @@ async function moveToNextStep() {
       contact_type: 'Page contact'
     });
 
-    // Eulerian
+    // Eulerian - Plan de taggage Numberly V1.5 §5.4 "Page de contact entreprise"
     eaCollectorWrapper([
       'rtgsite',
       'professionnel',
@@ -297,20 +297,20 @@ async function moveToNextStep() {
       getHost(),
       'rtgpreviouspage',
       document.referrer,
-      'rtgsalutation',
-      personalInfosForm.salutation,
       'rtgnom',
       personalInfosForm.lastname,
       'rtgprenom',
       personalInfosForm.firstname,
       'rtgorganisation',
-      `${personalInfosForm.company.organisation?.id}`,
+      // §5.4 recette : organisation "en toute lettre" (libellé, ou saisie libre si "Autre") au lieu de l'id
+      personalInfosForm.company.otherOrganisation || personalInfosForm.company.organisation?.label,
       'rtgphonenumber',
       personalInfosForm.contact.phone,
       'email',
       personalInfosForm.contact.email,
       'rtgsecteuractivité',
-      `${personalInfosForm.company.sector}`
+      // §5.4 recette : "rtgsecteuractivité mal rempli" -> libellé du secteur (ou saisie libre si "Autre")
+      personalInfosForm.company.otherSector || personalInfosForm.company.sector?.label
     ]);
 
     emit('changeActiveStep');

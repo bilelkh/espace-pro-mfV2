@@ -138,6 +138,9 @@ const manageGtmOnSubmitContactForm = (): void => {
 };
 
 const manageEulerianOnSubmitContactForm = (): void => {
+  // Eulerian - Plan de taggage Numberly V1.5 §5.5 "Envoi du formulaire (clic sur Nous contacter)"
+  // Variables retirées suite à la recette §5.5 : rtgzip, rtgnom, rtgprenom, rtgraisonsociale, rtgsiren
+  // (ainsi que rtgsalutation et rtgsiret, absents du tag attendu §5.5)
   eaCollectorWrapper([
     'rtgsite',
     'professionnel',
@@ -152,36 +155,24 @@ const manageEulerianOnSubmitContactForm = (): void => {
     'ref',
     '_' + Math.random().toString(36).substr(2, 9),
     'rtgpagename',
-    'envoi_formulaire_contact',
+    'contact_entreprise', // §5.5 : rtgpagename attendu "contact_entreprise"
     'path',
     window.location.pathname,
     'from',
     getHost(),
     'rtgpreviouspage',
     document.referrer,
-    'rtgsalutation',
-    personalInfosFormStore.salutation?.label,
-    'rtgnom',
-    personalInfosFormStore.lastname,
-    'rtgprenom',
-    personalInfosFormStore.firstname,
     'rtgorganisation',
-    `${personalInfosFormStore.company.otherOrganisation || personalInfosFormStore.company.organisation?.id}`,
+    // §5.4/§5.5 : libellé (ou saisie libre si "Autre"), aligné sur le tag "contact_entreprise"
+    personalInfosFormStore.company.otherOrganisation || personalInfosFormStore.company.organisation?.label,
     'rtgphonenumber',
     personalInfosFormStore.contact.phone,
     'email',
     personalInfosFormStore.contact.email,
     'rtgsecteuractivité',
-    `${personalInfosFormStore.company.otherSector || personalInfosFormStore.company.sector?.id}`,
-    'rtgraisonsociale',
-    companyInfosForm.company.name,
-    'rtgsiren',
-    companyInfosForm.company.siren,
-    'rtgsiret',
-    companyInfosForm.company.siret.replace(/\s/g, ''),
+    // §5.4/§5.5 : libellé du secteur (ou saisie libre si "Autre"), aligné sur le tag "contact_entreprise"
+    personalInfosFormStore.company.otherSector || personalInfosFormStore.company.sector?.label,
     'rtgcodepostal',
-    companyInfosForm.company.zipcode?.code,
-    'rtgzip',
     companyInfosForm.company.zipcode?.code,
     'rtgcanaldistribution',
     `${companyInfosForm.company.distributionChannel?.id}`,
@@ -190,7 +181,9 @@ const manageEulerianOnSubmitContactForm = (): void => {
     'rtgclientele',
     companyInfosForm.company.customersType,
     'rtgclientbanquecagroupe',
-    companyInfosForm.company.caCustomerAlready
+    companyInfosForm.company.caCustomerAlready,
+    'rtgnbdossier', // §5.5 recette : "Ajouter rtgnbdossier" (nombre de dossiers de crédit générés)
+    companyInfosForm.company.creditVolume?.label ?? ''
   ]);
 };
 </script>
