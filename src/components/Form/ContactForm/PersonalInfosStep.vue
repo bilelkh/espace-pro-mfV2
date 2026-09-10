@@ -297,10 +297,6 @@ async function moveToNextStep() {
       getHost(),
       'rtgpreviouspage',
       document.referrer,
-      'rtgnom',
-      personalInfosForm.lastname,
-      'rtgprenom',
-      personalInfosForm.firstname,
       'rtgorganisation',
       // §5.4 recette : organisation "en toute lettre" (libellé, ou saisie libre si "Autre") au lieu de l'id
       personalInfosForm.company.otherOrganisation || personalInfosForm.company.organisation?.label,
